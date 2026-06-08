@@ -7,7 +7,12 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000,
+    port: 3003,
+  },
+  preview: {
+    port: 3003,
+    allowedHosts: true,
+    host: 'control.medplum.com.ar',
   },
   test: {
     environment: 'jsdom',
@@ -16,3 +21,8 @@ export default defineConfig({
     testTimeout: 120000,
   },
 });
+
+
+
+
+

@@ -39,33 +39,33 @@ import classes from './Header.module.css';
 const mockdata = [
   {
     icon: IconCode,
-    title: 'Open source',
-    description: 'This Pokémon’s cry is very loud and distracting',
+    title: 'Código abierto',
+    description: 'El grito de este Pokémon es muy fuerte y distrae',
   },
   {
     icon: IconCoin,
-    title: 'Free for everyone',
-    description: 'The fluid of Smeargle’s tail secretions changes',
+    title: 'Gratis para todos',
+    description: 'El fluido de las secreciones de la cola de Smeargle cambia',
   },
   {
     icon: IconBook,
-    title: 'Documentation',
-    description: 'Yanma is capable of seeing 360 degrees without',
+    title: 'Documentación',
+    description: 'Yanma puede ver 360 grados sin necesidad de',
   },
   {
     icon: IconFingerprint,
-    title: 'Security',
-    description: 'The shell’s rounded shape and the grooves on its.',
+    title: 'Seguridad',
+    description: 'La forma redondeada del caparazón y los surcos de su.',
   },
   {
     icon: IconChartPie3,
-    title: 'Analytics',
-    description: 'This Pokémon uses its flying ability to quickly chase',
+    title: 'Analítica',
+    description: 'Este Pokémon usa su capacidad de vuelo para perseguir rápido',
   },
   {
     icon: IconNotification,
-    title: 'Notifications',
-    description: 'Combusken battles with the intensely hot flames it spews',
+    title: 'Notificaciones',
+    description: 'Combusken pelea con las llamas intensamente calientes que escupe',
   },
 ];
 
@@ -108,7 +108,7 @@ export function Header(): JSX.Element {
                   <a href="#" className={classes.link}>
                     <Center inline>
                       <Box component="span" mr={5}>
-                        Services
+                        Servicios
                       </Box>
                       <IconChevronDown size={16} />
                     </Center>
@@ -117,9 +117,9 @@ export function Header(): JSX.Element {
 
                 <HoverCard.Dropdown style={{ overflow: 'hidden' }}>
                   <Group justify="space-between" px="md">
-                    <Text fw={500}>Services</Text>
+                    <Text fw={500}>Servicios</Text>
                     <Anchor href="#" size="xs">
-                      View all
+                      Ver todo
                     </Anchor>
                   </Group>
 
@@ -133,33 +133,33 @@ export function Header(): JSX.Element {
                     <Group justify="space-between">
                       <div>
                         <Text fw={500} size="sm">
-                          Get started
+                          Comenzar
                         </Text>
                         <Text size="xs" color="dimmed">
-                          Their food sources have decreased, and their numbers
+                          Sus fuentes de alimento disminuyeron, y su cantidad
                         </Text>
                       </div>
-                      <Button variant="default">Get started</Button>
+                      <Button variant="default">Comenzar</Button>
                     </Group>
                   </div>
                 </HoverCard.Dropdown>
               </HoverCard>
               <a href="#" className={classes.link}>
-                Counseling
+                Orientación
               </a>
               <a href="#" className={classes.link}>
-                Physicians
+                Médicos
               </a>
               <a href="#" className={classes.link}>
-                More
+                Más
               </a>
             </Group>
 
             <Group className={classes.hiddenMobile}>
               <Button variant="default" onClick={() => navigate('/signin')?.catch(console.error)}>
-                Log in
+                Iniciar sesión
               </Button>
-              <Button onClick={() => navigate('/register')?.catch(console.error)}>Sign up</Button>
+              <Button onClick={() => navigate('/register')?.catch(console.error)}>Registrarse</Button>
             </Group>
 
             <Burger opened={drawerOpened} onClick={toggleDrawer} className={classes.hiddenDesktop} />
@@ -172,7 +172,7 @@ export function Header(): JSX.Element {
         onClose={closeDrawer}
         size="100%"
         padding="md"
-        title="Navigation"
+        title="Navegación"
         className={classes.hiddenDesktop}
         zIndex={1000000}
       >
@@ -180,31 +180,31 @@ export function Header(): JSX.Element {
           <Divider my="sm" />
 
           <a href="#" className={classes.link}>
-            Home
+            Inicio
           </a>
           <UnstyledButton className={classes.link} onClick={toggleLinks}>
             <Center inline>
               <Box component="span" mr={5}>
-                Features
+                Funciones
               </Box>
               <IconChevronDown size={16} />
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened}>{links}</Collapse>
           <a href="#" className={classes.link}>
-            Learn
+            Aprender
           </a>
           <a href="#" className={classes.link}>
-            Academy
+            Academia
           </a>
 
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">
             <Button variant="default" onClick={() => navigate('/signin')?.catch(console.error)}>
-              Log in
+              Iniciar sesión
             </Button>
-            <Button onClick={() => navigate('/register')?.catch(console.error)}>Sign up</Button>
+            <Button onClick={() => navigate('/register')?.catch(console.error)}>Registrarse</Button>
           </Group>
         </ScrollArea>
       </Drawer>

@@ -19,7 +19,7 @@ export function ScreeningQuestionnairePage(): JSX.Element {
   return (
     <Document width={800}>
       {isSubmitted ? (
-        <div>Thank you for submitting your questions</div>
+        <div>Gracias por enviar tus respuestas</div>
       ) : (
         <QuestionnaireForm questionnaire={questionnaire} onSubmit={handleQuestionnaireSubmit} />
       )}
@@ -63,7 +63,7 @@ const questionnaire: Questionnaire = {
       ],
       required: false,
       linkId: '/coreQuestions',
-      text: 'AHC HRSN Screening Core Questions',
+      text: 'Preguntas centrales del cuestionario AHC HRSN',
       prefix: 'I:',
       item: [
         {
@@ -77,7 +77,7 @@ const questionnaire: Questionnaire = {
           ],
           required: false,
           linkId: '/coreQuestions/livingSituation',
-          text: 'Living Situation',
+          text: 'Situación habitacional',
           item: [
             {
               type: 'choice',
@@ -105,7 +105,7 @@ const questionnaire: Questionnaire = {
               ],
               required: false,
               linkId: '/coreQuestions/livingSituation/1',
-              text: 'What is your living situation today?',
+              text: '¿Cuál es tu situación habitacional hoy?',
               prefix: '1.',
               answerOption: [
                 {
@@ -117,7 +117,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: '1a1',
-                    display: 'I have a steady place to live',
+                    display: 'Tengo un lugar estable donde vivir',
                   },
                 },
                 {
@@ -129,7 +129,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: '1a2',
-                    display: 'I have a place to live today, but I am worried about losing it in the future',
+                    display: 'Tengo un lugar donde vivir hoy, pero me preocupa perderlo en el futuro',
                   },
                 },
                 {
@@ -142,7 +142,7 @@ const questionnaire: Questionnaire = {
                   valueCoding: {
                     code: '1a3',
                     display:
-                      'I do not have a steady place to live (I am temporarily staying with others, in a hotel, in a shelter, living outside on the street, on a beach, in a car, abandoned building, bus or train station, or in a park)',
+                      'No tengo un lugar estable donde vivir (estoy quedándome temporalmente con otras personas, en un hotel, en un refugio, viviendo en la calle, en una playa, en un auto, en un edificio abandonado, en una estación de colectivos o trenes, o en una plaza)',
                   },
                 },
               ],
@@ -174,7 +174,7 @@ const questionnaire: Questionnaire = {
               required: false,
               repeats: true,
               linkId: '/coreQuestions/livingSituation/2',
-              text: 'Think about the place you live. Do you have problems with any of the following?',
+              text: 'Pensá en el lugar donde vivís. ¿Tenés problemas con alguno de los siguientes?',
               prefix: '2.',
               answerOption: [
                 {
@@ -186,7 +186,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: '2a1',
-                    display: 'Pests such as bugs, ants, or mice',
+                    display: 'Plagas como insectos, hormigas o ratones',
                   },
                 },
                 {
@@ -198,7 +198,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: '2a2',
-                    display: 'Mold',
+                    display: 'Moho',
                   },
                 },
                 {
@@ -210,7 +210,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: '2a3',
-                    display: 'Lead paint or pipes',
+                    display: 'Pintura o cañerías con plomo',
                   },
                 },
                 {
@@ -222,7 +222,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: '2a4',
-                    display: 'Lack of heat',
+                    display: 'Falta de calefacción',
                   },
                 },
                 {
@@ -234,7 +234,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: '2a5',
-                    display: 'Oven or stove not working',
+                    display: 'Horno o cocina que no funciona',
                   },
                 },
                 {
@@ -246,7 +246,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: '2a6',
-                    display: 'Smoke detectors missing or not working',
+                    display: 'Detectores de humo faltantes o que no funcionan',
                   },
                 },
                 {
@@ -258,7 +258,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: '2a7',
-                    display: 'Water leaks',
+                    display: 'Pérdidas o filtraciones de agua',
                   },
                 },
                 {
@@ -270,13 +270,13 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: '2a8',
-                    display: 'None of the above',
+                    display: 'Ninguna de las anteriores',
                   },
                 },
               ],
               item: [
                 {
-                  text: 'CHOOSE ALL THAT APPLY',
+                  text: 'ELEGÍ TODAS LAS QUE CORRESPONDAN',
                   type: 'display',
                   linkId: '/coreQuestions/livingSituation/2-help',
                   extension: [
@@ -310,7 +310,7 @@ const questionnaire: Questionnaire = {
           ],
           required: false,
           linkId: '/coreQuestions/food',
-          text: 'Food',
+          text: 'Alimentación',
           item: [
             {
               type: 'choice',
@@ -339,7 +339,7 @@ const questionnaire: Questionnaire = {
               ],
               required: false,
               linkId: '/coreQuestions/food/3',
-              text: 'Within the past 12 months, you worried that your food would run out before you got money to buy more.',
+              text: 'En los últimos 12 meses, te preocupó que la comida se terminara antes de tener dinero para comprar más.',
               prefix: '3.',
               answerOption: [
                 {
@@ -351,7 +351,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: 'oTrue',
-                    display: 'Often true',
+                    display: 'A menudo es cierto',
                   },
                 },
                 {
@@ -363,7 +363,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: 'sTrue',
-                    display: 'Sometimes true',
+                    display: 'A veces es cierto',
                   },
                 },
                 {
@@ -375,7 +375,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: 'nTrue',
-                    display: 'Never true',
+                    display: 'Nunca es cierto',
                   },
                 },
               ],
@@ -407,7 +407,7 @@ const questionnaire: Questionnaire = {
               ],
               required: false,
               linkId: '/coreQuestions/food/4',
-              text: "Within the past 12 months, the food you bought just didn't last and you didn't have money to get more.",
+              text: 'En los últimos 12 meses, la comida que comprabas no alcanzaba y no tenías dinero para conseguir más.',
               prefix: '4.',
               answerOption: [
                 {
@@ -419,7 +419,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: 'oTrue',
-                    display: 'Often true',
+                    display: 'A menudo es cierto',
                   },
                 },
                 {
@@ -431,7 +431,7 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: 'sTrue',
-                    display: 'Sometimes true',
+                    display: 'A veces es cierto',
                   },
                 },
                 {
@@ -443,13 +443,13 @@ const questionnaire: Questionnaire = {
                   ],
                   valueCoding: {
                     code: 'nTrue',
-                    display: 'Never true',
+                    display: 'Nunca es cierto',
                   },
                 },
               ],
             },
             {
-              text: 'Some people have made the following statements about their food situation. Please answer whether the statements were OFTEN, SOMETIMES, or NEVER true for you and your household in the last 12 months.',
+              text: 'Algunas personas han hecho las siguientes afirmaciones sobre su situación alimentaria. Por favor indicá si las afirmaciones fueron A MENUDO, A VECES o NUNCA ciertas para vos y tu hogar en los últimos 12 meses.',
               type: 'display',
               linkId: '/coreQuestions/food-help',
               extension: [
@@ -481,7 +481,7 @@ const questionnaire: Questionnaire = {
           ],
           required: false,
           linkId: '/coreQuestions/transportation',
-          text: 'Transportation',
+          text: 'Transporte',
           item: [
             {
               type: 'boolean',
@@ -495,7 +495,7 @@ const questionnaire: Questionnaire = {
               ],
               required: false,
               linkId: '/coreQuestions/transportation/5',
-              text: 'In the past 12 months, has lack of reliable transportation kept you from medical appointments, meetings, work or from getting things needed for daily living?',
+              text: 'En los últimos 12 meses, ¿la falta de un transporte confiable te impidió llegar a citas médicas, reuniones, el trabajo o conseguir cosas necesarias para la vida diaria?',
               prefix: '5.',
             },
           ],
@@ -511,7 +511,7 @@ const questionnaire: Questionnaire = {
           ],
           required: false,
           linkId: '/coreQuestions/utilities',
-          text: 'Utilities',
+          text: 'Servicios públicos',
           item: [
             {
               type: 'choice',
@@ -540,7 +540,7 @@ const questionnaire: Questionnaire = {
               ],
               required: false,
               linkId: '/coreQuestions/utilities/6',
-              text: 'In the past 12 months has the electric, gas, oil, or water company threatened to shut off services in your home?',
+              text: 'En los últimos 12 meses, ¿la empresa de electricidad, gas, combustible o agua amenazó con cortarte los servicios en tu casa?',
               prefix: '6.',
               answerOption: [
                 {

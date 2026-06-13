@@ -290,7 +290,7 @@ const questionnaire: Questionnaire = {
       item: [
         {
           linkId: 'insurance-provider',
-          text: 'Insurance Provider',
+          text: 'Obra social / Prepaga',
           type: 'reference',
           required: true,
           extension: [
@@ -311,20 +311,20 @@ const questionnaire: Questionnaire = {
         },
         {
           linkId: 'subscriber-id',
-          text: 'Subscriber ID',
+          text: 'Número de afiliado',
           type: 'string',
           required: true,
         },
         {
           linkId: 'relationship-to-subscriber',
-          text: 'Relationship to Subscriber',
+          text: 'Parentesco con el titular',
           type: 'choice',
           answerValueSet: 'http://hl7.org/fhir/ValueSet/subscriber-relationship',
           required: true,
         },
         {
           linkId: 'related-person',
-          text: 'Subscriber Information',
+          text: 'Datos del titular',
           type: 'group',
           enableBehavior: 'all',
           enableWhen: [
@@ -389,35 +389,35 @@ const questionnaire: Questionnaire = {
     },
     {
       linkId: 'social-determinants-of-health',
-      text: 'Social Determinants of Health',
+      text: 'Determinantes sociales de la salud',
       type: 'group',
       item: [
         {
           linkId: 'housing-status',
-          text: 'Housing Status',
+          text: 'Situación habitacional',
           type: 'choice',
           answerValueSet: 'http://terminology.hl7.org/ValueSet/v3-LivingArrangement',
         },
         {
           linkId: 'education-level',
-          text: 'Education Level',
+          text: 'Nivel educativo',
           type: 'choice',
           answerValueSet: 'http://terminology.hl7.org/ValueSet/v3-EducationLevel',
         },
         {
           linkId: 'smoking-status',
-          text: 'Smoking Status',
+          text: 'Consumo de tabaco',
           type: 'choice',
           answerValueSet: 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.11.20.9.38',
         },
         {
           linkId: 'veteran-status',
-          text: 'Veteran Status',
+          text: 'Condición de veterano/a',
           type: 'boolean',
         },
         {
           linkId: 'pregnancy-status',
-          text: 'Pregnancy Status',
+          text: 'Estado de embarazo',
           type: 'choice',
           code: [
             {
@@ -430,7 +430,7 @@ const questionnaire: Questionnaire = {
         },
         {
           linkId: 'estimated-delivery-date',
-          text: 'Estimated Delivery Date',
+          text: 'Fecha probable de parto',
           type: 'date',
           code: [
             {
@@ -455,25 +455,25 @@ const questionnaire: Questionnaire = {
     },
     {
       linkId: 'languages-spoken',
-      text: 'Languages Spoken',
+      text: 'Idiomas que habla',
       type: 'choice',
       answerValueSet: 'http://hl7.org/fhir/ValueSet/languages',
       repeats: true,
     },
     {
       linkId: 'preferred-language',
-      text: 'Preferred Language',
+      text: 'Idioma preferido',
       type: 'choice',
       answerValueSet: 'http://hl7.org/fhir/ValueSet/languages',
     },
     {
       linkId: 'consent-for-treatment',
-      text: 'Consent for Treatment',
+      text: 'Consentimiento para el tratamiento',
       type: 'group',
       item: [
         {
           linkId: 'consent-for-treatment-signature',
-          text: 'I the undersigned patient (or authorized representative, or parent/guardian), consent to and authorize the performance of any treatments, examinations, medical services, surgical or diagnostic procedures, including lab and radiographic studies, as ordered by this office and it’s healthcare providers.',
+          text: 'Yo, el/la paciente abajo firmante (o representante autorizado/a, o padre/madre/tutor), consiento y autorizo la realización de cualquier tratamiento, examen, servicio médico, procedimiento quirúrgico o diagnóstico, incluidos estudios de laboratorio y radiográficos, según lo indiquen este consultorio y sus profesionales de la salud.',
           type: 'boolean',
         },
         {
@@ -485,12 +485,12 @@ const questionnaire: Questionnaire = {
     },
     {
       linkId: 'agreement-to-pay-for-treatment',
-      text: 'Agreement to Pay for Treatment',
+      text: 'Acuerdo de pago del tratamiento',
       type: 'group',
       item: [
         {
           linkId: 'agreement-to-pay-for-treatment-help',
-          text: 'I, the responsible party, hereby agree to pay all the charges submitted by this office during the course of treatment for the patient. If the patient has insurance coverage with a managed care organization, with which this office has a contractual agreement, I agree to pay all applicable co‐payments, co‐insurance and deductibles, which arise during the course of treatment for the patient. The responsible party also agrees to pay for treatment rendered to the patient, which is not considered to be a covered service by my insurer and/or a third party insurer or other payor. I understand that Sample Hospital provides charges on a sliding fee; based on family size and household annual income, and that services will not be refused due to inability to pay at the time of the visit.',
+          text: 'Yo, la persona responsable, acepto pagar todos los cargos presentados por este consultorio durante el transcurso del tratamiento del/de la paciente. Si el/la paciente cuenta con cobertura de una organización de salud con la que este consultorio tiene un acuerdo contractual, acepto pagar todos los copagos, coseguros y deducibles correspondientes que surjan durante el tratamiento. La persona responsable también acepta pagar el tratamiento brindado al/a la paciente que no sea considerado un servicio cubierto por mi obra social y/o por una aseguradora externa u otro pagador. Entiendo que el Hospital de Muestra aplica una escala de cargos según el tamaño del grupo familiar y los ingresos anuales del hogar, y que no se negará la atención por imposibilidad de pago al momento de la visita.',
           type: 'boolean',
         },
         {
@@ -502,17 +502,17 @@ const questionnaire: Questionnaire = {
     },
     {
       linkId: 'notice-of-privacy-practices',
-      text: 'Notice of Privacy Practices',
+      text: 'Aviso de prácticas de privacidad',
       type: 'group',
       item: [
         {
           linkId: 'notice-of-privacy-practices-help',
-          text: 'Sample Hospital Notice of Privacy Practices gives information about how Sample Hospital may use and release protected health information (PHI) about you. I understand that:\n- I have the right to receive a copy of Sample Hospital’s Notice of Privacy Practices.\n- I may request a copy at any time.\n- Sample Hospital‘s Notice of Privacy Practices may be revised.',
+          text: 'El Aviso de prácticas de privacidad del Hospital de Muestra brinda información sobre cómo el Hospital de Muestra puede usar y divulgar tu información de salud protegida (PHI). Entiendo que:\n- Tengo derecho a recibir una copia del Aviso de prácticas de privacidad del Hospital de Muestra.\n- Puedo solicitar una copia en cualquier momento.\n- El Aviso de prácticas de privacidad del Hospital de Muestra puede modificarse.',
           type: 'display',
         },
         {
           linkId: 'notice-of-privacy-practices-signature',
-          text: 'I acknowledge the above and that I have received a copy of Sample Hospital’s Notice of Privacy Practices.',
+          text: 'Reconozco lo anterior y que recibí una copia del Aviso de prácticas de privacidad del Hospital de Muestra.',
           type: 'boolean',
         },
         {
@@ -524,17 +524,17 @@ const questionnaire: Questionnaire = {
     },
     {
       linkId: 'acknowledgement-for-advance-directives',
-      text: 'Acknowledgement for Advance Directives',
+      text: 'Reconocimiento de directivas anticipadas',
       type: 'group',
       item: [
         {
           linkId: 'acknowledgement-for-advance-directives-help',
-          text: 'An Advance Medical Directive is a document by which a person makes provision for health care decisions in the event that, in the future, he/she becomes unable to make those decisions.',
+          text: 'Una directiva médica anticipada es un documento por el cual una persona deja establecidas las decisiones sobre su atención médica en caso de que, en el futuro, quede imposibilitada de tomar esas decisiones.',
           type: 'display',
         },
         {
           linkId: 'acknowledgement-for-advance-directives-signature',
-          text: 'I acknowledge I have received information about Advance Directives.',
+          text: 'Reconozco que recibí información sobre las directivas anticipadas.',
           type: 'boolean',
         },
         {

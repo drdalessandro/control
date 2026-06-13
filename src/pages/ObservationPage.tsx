@@ -12,7 +12,7 @@ export function ObservationPage(): JSX.Element {
 
   return (
     <Document>
-      <Title>Observation</Title>
+      <Title>Observación</Title>
       <ResourceTable value={resource} ignoreMissingValues />
     </Document>
   );

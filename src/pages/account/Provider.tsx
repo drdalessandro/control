@@ -13,15 +13,15 @@ export function Provider(): JSX.Element {
   if (patient.generalPractitioner && patient.generalPractitioner.length > 0) {
     return (
       <Box p="xl">
-        <Title mb="lg">My Provider</Title>
-        <InfoSection title="My Primary Care Provider">
+        <Title mb="lg">Mi profesional</Title>
+        <InfoSection title="Mi profesional de cabecera">
           <Box p="xl">
             <Stack align="center">
               <ResourceAvatar size={200} radius={100} value={patient.generalPractitioner[0]} />
               <Title order={2}>
                 <ResourceName value={patient.generalPractitioner[0]} />
               </Title>
-              <Button size="lg">Choose a Primary Care Provider</Button>
+              <Button size="lg">Elegir un profesional de cabecera</Button>
             </Stack>
           </Box>
         </InfoSection>
@@ -31,8 +31,8 @@ export function Provider(): JSX.Element {
 
   return (
     <Box p="xl">
-      <Title mb="lg">Choose a provider</Title>
-      <InfoSection title="My Primary Care Provider">TODO</InfoSection>
+      <Title mb="lg">Elegir un profesional</Title>
+      <InfoSection title="Mi profesional de cabecera">TODO</InfoSection>
     </Box>
   );
 }

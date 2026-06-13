@@ -13,9 +13,9 @@ function CoverageTable({ coverages }: { coverages: Coverage[] }): JSX.Element {
     <Table>
       <Table.Thead>
         <Table.Tr>
-          <Table.Th>Payor Name</Table.Th>
-          <Table.Th>Subscriber ID</Table.Th>
-          <Table.Th>Relationship to Subscriber</Table.Th>
+          <Table.Th>Obra social / Prepaga</Table.Th>
+          <Table.Th>ID de afiliado</Table.Th>
+          <Table.Th>Vínculo con el afiliado titular</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -43,19 +43,19 @@ export function MembershipAndBilling(): JSX.Element {
 
   return (
     <Box p="xl">
-      <Title mb="xl">Membership & Billing</Title>
-      <InfoSection title="Coverage">
+      <Title mb="xl">Membresía y Facturación</Title>
+      <InfoSection title="Cobertura">
         {coverages.length === 0 ? (
-          <Box p="xl">No coverage</Box>
+          <Box p="xl">Sin cobertura</Box>
         ) : (
           <Stack gap={0}>
             <CoverageTable coverages={coverages} />
           </Stack>
         )}
       </InfoSection>
-      <InfoSection title="Payments">
+      <InfoSection title="Pagos">
         {payments.length === 0 ? (
-          <Box p="xl">No payments</Box>
+          <Box p="xl">Sin pagos</Box>
         ) : (
           <Stack gap={0}>
             {payments.map((p) => (

@@ -76,7 +76,7 @@ function AnswerDisplay({ answer }: AnswerDisplayProps): JSX.Element {
     case 'valueDateTime':
       return <p>{formatDate(value)}</p>;
     case 'valueBoolean':
-      return <p>{value ? 'True' : 'False'}</p>;
+      return <p>{value ? 'Sí' : 'No'}</p>;
     default:
       return <p>{value.toString()}</p>;
   }

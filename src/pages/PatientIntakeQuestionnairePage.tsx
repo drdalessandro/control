@@ -16,7 +16,7 @@ export function PatientIntakeQuestionnairePage(): JSX.Element {
   return (
     <Document width={800}>
       {isSubmitted ? (
-        <div>Thank you for submitting your form</div>
+        <div>Gracias por enviar tu formulario</div>
       ) : (
         <QuestionnaireForm questionnaire={questionnaire} onSubmit={handleQuestionnaireSubmit} />
       )}
@@ -27,89 +27,89 @@ export function PatientIntakeQuestionnairePage(): JSX.Element {
 const questionnaire: Questionnaire = {
   resourceType: 'Questionnaire',
   status: 'active',
-  title: 'Patient Intake Questionnaire',
+  title: 'Cuestionario de admisión del paciente',
   name: 'patient-intake',
   item: [
     {
       linkId: 'patient-demographics',
-      text: 'Demographics',
+      text: 'Datos demográficos',
       type: 'group',
       item: [
         {
           linkId: 'first-name',
-          text: 'First Name',
+          text: 'Nombre',
           type: 'string',
           required: true,
         },
         {
           linkId: 'middle-name',
-          text: 'Middle Name',
+          text: 'Segundo nombre',
           type: 'string',
         },
         {
           linkId: 'last-name',
-          text: 'Last Name',
+          text: 'Apellido',
           type: 'string',
           required: true,
         },
         {
           linkId: 'dob',
-          text: 'Date of Birth',
+          text: 'Fecha de nacimiento',
           type: 'date',
         },
         {
           linkId: 'street',
-          text: 'Street',
+          text: 'Calle',
           type: 'string',
         },
         {
           linkId: 'city',
-          text: 'City',
+          text: 'Ciudad',
           type: 'string',
         },
         {
           linkId: 'state',
-          text: 'State',
+          text: 'Provincia',
           type: 'choice',
           answerValueSet: 'http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state',
         },
         {
           linkId: 'zip',
-          text: 'Zip',
+          text: 'Código postal',
           type: 'string',
         },
         {
           linkId: 'phone',
-          text: 'Phone',
+          text: 'Teléfono',
           type: 'string',
         },
         {
           linkId: 'ssn',
-          text: 'Social Security Number',
+          text: 'Número de seguro social',
           type: 'string',
           required: true,
         },
         {
           linkId: 'race',
-          text: 'Race',
+          text: 'Raza',
           type: 'choice',
           answerValueSet: 'http://hl7.org/fhir/us/core/ValueSet/omb-race-category',
         },
         {
           linkId: 'ethnicity',
-          text: 'Ethnicity',
+          text: 'Etnia',
           type: 'choice',
           answerValueSet: 'http://hl7.org/fhir/us/core/ValueSet/omb-ethnicity-category',
         },
         {
           linkId: 'gender-identity',
-          text: 'Gender Identity',
+          text: 'Identidad de género',
           type: 'choice',
           answerValueSet: 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1021.32',
         },
         {
           linkId: 'sexual-orientation',
-          text: 'Sexual Orientation',
+          text: 'Orientación sexual',
           type: 'choice',
           answerValueSet: 'http://hl7.org/fhir/us/core/ValueSet/us-core-sexual-orientation',
         },
@@ -117,152 +117,152 @@ const questionnaire: Questionnaire = {
     },
     {
       linkId: 'emergency-contact',
-      text: 'Emergency Contact',
+      text: 'Contacto de emergencia',
       type: 'group',
       repeats: true,
       item: [
         {
           linkId: 'emergency-contact-first-name',
-          text: 'First Name',
+          text: 'Nombre',
           type: 'string',
         },
         {
           linkId: 'emergency-contact-middle-name',
-          text: 'Middle Name',
+          text: 'Segundo nombre',
           type: 'string',
         },
         {
           linkId: 'emergency-contact-last-name',
-          text: 'Last Name',
+          text: 'Apellido',
           type: 'string',
         },
         {
           linkId: 'emergency-contact-phone',
-          text: 'Phone',
+          text: 'Teléfono',
           type: 'string',
         },
       ],
     },
     {
       linkId: 'allergies',
-      text: 'Allergies',
+      text: 'Alergias',
       type: 'group',
       repeats: true,
       item: [
         {
           linkId: 'allergy-substance',
-          text: 'Substance',
+          text: 'Sustancia',
           type: 'choice',
           answerValueSet: 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1186.8',
         },
         {
           linkId: 'allergy-reaction',
-          text: 'Reaction',
+          text: 'Reacción',
           type: 'string',
         },
         {
           linkId: 'allergy-onset',
-          text: 'Onset',
+          text: 'Inicio',
           type: 'dateTime',
         },
       ],
     },
     {
       linkId: 'medications',
-      text: 'Current medications',
+      text: 'Medicación actual',
       type: 'group',
       repeats: true,
       item: [
         {
           linkId: 'medication-code',
-          text: 'Medication Name',
+          text: 'Nombre del medicamento',
           type: 'choice',
           answerValueSet: 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1010.4',
         },
         {
           linkId: 'medication-note',
-          text: 'Note',
+          text: 'Nota',
           type: 'string',
         },
       ],
     },
     {
       linkId: 'medical-history',
-      text: 'Medical History',
+      text: 'Antecedentes médicos',
       type: 'group',
       repeats: true,
       item: [
         {
           linkId: 'medical-history-problem',
-          text: 'Problem',
+          text: 'Problema',
           type: 'choice',
           answerValueSet: 'http://hl7.org/fhir/us/core/ValueSet/us-core-condition-code',
         },
         {
           linkId: 'medical-history-clinical-status',
-          text: 'Status',
+          text: 'Estado',
           type: 'choice',
           answerValueSet: 'http://hl7.org/fhir/ValueSet/condition-clinical',
         },
         {
           linkId: 'medical-history-onset',
-          text: 'Onset',
+          text: 'Inicio',
           type: 'dateTime',
         },
       ],
     },
     {
       linkId: 'family-member-history',
-      text: 'Family Member History',
+      text: 'Antecedentes familiares',
       type: 'group',
       repeats: true,
       item: [
         {
           linkId: 'family-member-history-problem',
-          text: 'Problem',
+          text: 'Problema',
           type: 'choice',
           answerValueSet: 'http://hl7.org/fhir/us/core/ValueSet/us-core-condition-code',
         },
         {
           linkId: 'family-member-history-relationship',
-          text: 'Relationship',
+          text: 'Parentesco',
           type: 'choice',
           answerValueSet: 'http://terminology.hl7.org/ValueSet/v3-FamilyMember',
         },
         {
           linkId: 'family-member-history-deceased',
-          text: 'Deceased',
+          text: 'Fallecido/a',
           type: 'boolean',
         },
       ],
     },
     {
       linkId: 'vaccination-history',
-      text: 'Vaccination History',
+      text: 'Historial de vacunación',
       type: 'group',
       repeats: true,
       item: [
         {
           linkId: 'immunization-vaccine',
-          text: 'Vaccine',
+          text: 'Vacuna',
           type: 'choice',
           answerValueSet: 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1010.6',
         },
         {
           linkId: 'immunization-date',
-          text: 'Administration Date',
+          text: 'Fecha de aplicación',
           type: 'dateTime',
         },
       ],
     },
     {
       linkId: 'preferred-pharmacy',
-      text: 'Preferred Pharmacy',
+      text: 'Farmacia preferida',
       type: 'group',
       item: [
         {
           linkId: 'preferred-pharmacy-reference',
-          text: 'Pharmacy',
+          text: 'Farmacia',
           type: 'reference',
           extension: [
             {
@@ -284,7 +284,7 @@ const questionnaire: Questionnaire = {
     },
     {
       linkId: 'coverage-information',
-      text: 'Coverage Information',
+      text: 'Información de cobertura',
       type: 'group',
       repeats: true,
       item: [
@@ -359,27 +359,27 @@ const questionnaire: Questionnaire = {
           item: [
             {
               linkId: 'related-person-first-name',
-              text: 'First Name',
+              text: 'Nombre',
               type: 'string',
             },
             {
               linkId: 'related-person-middle-name',
-              text: 'Middle Name',
+              text: 'Segundo nombre',
               type: 'string',
             },
             {
               linkId: 'related-person-last-name',
-              text: 'Last Name',
+              text: 'Apellido',
               type: 'string',
             },
             {
               linkId: 'related-person-dob',
-              text: 'Date of Birth',
+              text: 'Fecha de nacimiento',
               type: 'date',
             },
             {
               linkId: 'related-person-gender-identity',
-              text: 'Gender Identity',
+              text: 'Identidad de género',
               type: 'choice',
               answerValueSet: 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1021.32',
             },
@@ -478,7 +478,7 @@ const questionnaire: Questionnaire = {
         },
         {
           linkId: 'consent-for-treatment-date',
-          text: 'Date',
+          text: 'Fecha',
           type: 'date',
         },
       ],
@@ -495,7 +495,7 @@ const questionnaire: Questionnaire = {
         },
         {
           linkId: 'agreement-to-pay-for-treatment-date',
-          text: 'Date',
+          text: 'Fecha',
           type: 'date',
         },
       ],
@@ -517,7 +517,7 @@ const questionnaire: Questionnaire = {
         },
         {
           linkId: 'notice-of-privacy-practices-date',
-          text: 'Date',
+          text: 'Fecha',
           type: 'date',
         },
       ],
@@ -539,7 +539,7 @@ const questionnaire: Questionnaire = {
         },
         {
           linkId: 'acknowledgement-for-advance-directives-date',
-          text: 'Date',
+          text: 'Fecha',
           type: 'date',
         },
       ],

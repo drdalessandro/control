@@ -28,8 +28,8 @@ export function QuestionnairePage(): JSX.Element {
         .then(() => {
           showNotification({
             icon: <IconCircleCheck />,
-            title: 'Success',
-            message: 'Answers recorded',
+            title: 'Listo',
+            message: 'Respuestas registradas',
           });
           navigate('/health-record/questionnaire-responses/')?.catch(console.error);
           window.scrollTo(0, 0);

@@ -34,54 +34,54 @@ import classes from './HomePage.module.css';
 const carouselItems = [
   {
     img: <IconChecklist />,
-    title: 'Welcome to Foo Medical',
+    title: 'Bienvenido/a a Foo Medical',
     description:
       'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
     url: '/screening-questionnaire',
-    label: 'AHC HRSN Screening',
+    label: 'Evaluación AHC HRSN',
   },
   {
     img: <IconChecklist />,
-    title: 'Patient Intake Questionnaire',
+    title: 'Cuestionario de admisión del paciente',
     description:
       'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
     url: '/patient-intake-questionnaire',
-    label: 'Start Form',
+    label: 'Comenzar formulario',
   },
   {
     img: <IconChecklist />,
-    title: 'Select a Doctor',
+    title: 'Elegir un médico',
     description:
       'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
     url: '/account/provider/choose-a-primary-care-povider',
-    label: 'Choose a Primary Care Provider',
+    label: 'Elegir un médico de cabecera',
   },
   {
     img: <IconChecklist />,
-    title: 'Emergency Contact',
+    title: 'Contacto de emergencia',
     description:
       'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
     url: '/account',
-    label: 'Add emergency contact',
+    label: 'Agregar contacto de emergencia',
   },
 ];
 
 const linkPages = [
   {
     img: HealthRecordImage,
-    title: 'Health Record',
+    title: 'Registro de Salud',
     description: '',
     href: '/health-record',
   },
   {
     img: PillImage,
-    title: 'Request Prescription Renewal',
+    title: 'Solicitar renovación de receta',
     description: '',
     href: '/health-record/medications',
   },
   {
     img: PharmacyImage,
-    title: 'Preferred Pharmacy',
+    title: 'Farmacia preferida',
     description: 'Walgreens D2866 1363 Divisadero St  DIVISADERO',
     href: '#',
   },
@@ -89,16 +89,16 @@ const linkPages = [
 
 const recommendations = [
   {
-    title: 'Get travel health recommendations',
-    description: 'Find out what vaccines and meds you need for your trip.',
+    title: 'Obtener recomendaciones de salud para viajar',
+    description: 'Averiguá qué vacunas y medicamentos necesitás para tu viaje.',
   },
   {
-    title: 'Get FSA/HSA reimbursement',
-    description: 'Request a prescription for over-the-counter items.',
+    title: 'Obtener reembolso FSA/HSA',
+    description: 'Solicitá una receta para artículos de venta libre.',
   },
   {
-    title: 'Request health record',
-    description: 'Get records sent to or from Foo Medical.',
+    title: 'Solicitar registro de salud',
+    description: 'Hacé que envíen o reciban registros desde Foo Medical.',
   },
 ];
 
@@ -112,7 +112,7 @@ export function HomePage(): JSX.Element {
     <Box bg="gray.0">
       <Box className={classes.announcements}>
         <span>
-          Announcements go here. <Anchor href="#">Include links if needed.</Anchor>
+          Los anuncios van acá. <Anchor href="#">Incluí enlaces si hace falta.</Anchor>
         </span>
       </Box>
       <div className={classes.hero}>
@@ -123,19 +123,19 @@ export function HomePage(): JSX.Element {
         />
         <Container className={classes.heroContainer}>
           <Title className={classes.heroTitle}>
-            Hi <span className="text-teal-600">{profileName}</span>,<br /> we’re here to help
+            Hola <span className="text-teal-600">{profileName}</span>,<br /> estamos para ayudarte
           </Title>
           <Button size="xl" radius="xl" className={classes.heroButton}>
-            Get Care
+            Atención
           </Button>
         </Container>
       </div>
       <Box className={classes.callToAction}>
         <Group justify="center">
           <IconGift />
-          <p>Put calls to action here</p>
+          <p>Poné las llamadas a la acción acá</p>
           <Button variant="white" onClick={() => navigate('/messages')?.catch(console.error)}>
-            Send Message
+            Enviar mensaje
           </Button>
         </Group>
       </Box>

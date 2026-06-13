@@ -18,12 +18,12 @@ export function Medication(): JSX.Element {
   return (
     <Box p="xl">
       <Title order={2}>{med.medicationCodeableConcept?.text}</Title>
-      <p className="mb-6 text-lg text-gray-600">To refill this medication, please contact your pharmacy.</p>
+      <p className="mb-6 text-lg text-gray-600">Para reponer este medicamento, comuníquese con su farmacia.</p>
       <p className="mb-6 text-lg text-gray-600">
-        No more refills available at your pharmacy?{' '}
-        <Anchor onClick={() => setModalOpen(true)}>Renew your prescription</Anchor>
+        ¿No quedan más reposiciones disponibles en su farmacia?{' '}
+        <Anchor onClick={() => setModalOpen(true)}>Renueve su receta</Anchor>
       </p>
-      <InfoSection title="Medication">
+      <InfoSection title="Medicamento">
         <ResourceTable value={med} ignoreMissingValues />
       </InfoSection>
       <RenewalModal prev={med} opened={modalOpen} setOpened={setModalOpen} />
@@ -47,18 +47,18 @@ function RenewalModal({
       size="lg"
       opened={opened}
       onClose={() => setOpened(false)}
-      title={<Title order={3}>Request a Renewal</Title>}
+      title={<Title order={3}>Solicitar una renovación</Title>}
     >
       <Stack gap="md">
-        <KeyValue name="Patient" value={formatHumanName(patient?.name?.[0])} />
-        <KeyValue name="Last Prescribed" value={formatDateTime(prev.authoredOn)} />
-        <KeyValue name="Status" value={prev.status} />
-        <KeyValue name="Medication" value={prev.medicationCodeableConcept?.text} />
+        <KeyValue name="Paciente" value={formatHumanName(patient?.name?.[0])} />
+        <KeyValue name="Última prescripción" value={formatDateTime(prev.authoredOn)} />
+        <KeyValue name="Estado" value={prev.status} />
+        <KeyValue name="Medicamento" value={prev.medicationCodeableConcept?.text} />
         <KeyValue
-          name="Dosage Instructions"
+          name="Indicaciones de dosificación"
           value={prev.dosageInstruction?.[0]?.timing && formatTiming(prev.dosageInstruction[0].timing)}
         />
-        <Button onClick={() => setOpened(false)}>Submit Renewal Request</Button>
+        <Button onClick={() => setOpened(false)}>Enviar solicitud de renovación</Button>
       </Stack>
     </Modal>
   );

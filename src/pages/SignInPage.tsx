@@ -8,13 +8,14 @@ import { MEDPLUM_GOOGLE_CLIENT_ID, MEDPLUM_PROJECT_ID } from '../config';
 
 export function SignInPage(): JSX.Element {
   const navigate = useNavigate();
+
   return (
     <SimpleGrid cols={2}>
       <Box pt={100} pb={200}>
         <SignInForm
           projectId={MEDPLUM_PROJECT_ID}
           googleClientId={MEDPLUM_GOOGLE_CLIENT_ID}
-          onSuccess={() => navigate('/')?.catch(console.error)}
+          onSuccess={() => navigate('/')}
         >
           <h2>Ingresar</h2>
         </SignInForm>

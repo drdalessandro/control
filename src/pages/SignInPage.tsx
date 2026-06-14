@@ -19,7 +19,7 @@ export function SignInPage(): JSX.Element {
           <h2>Ingresar</h2>
         </SignInForm>
       </Box>
-      <BackgroundImage src="https://app.medplum.com.ar/static/img/favaloro.png />"
+      <BackgroundImage src="https://app.medplum.com.ar/static/img/favaloro.png" />
     </SimpleGrid>
   );
 }

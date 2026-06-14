@@ -34,6 +34,14 @@ import classes from './HomePage.module.css';
 const carouselItems = [
   {
     img: <IconChecklist />,
+    title: 'Cuestionario de salud social (SDOH)',
+    description:
+      'Unas pocas preguntas sobre tu situación social y económica. Ayudan a tu equipo de salud a acompañarte mejor.',
+    url: '/cuestionario-sdoh',
+    label: 'Completar cuestionario',
+  },
+  {
+    img: <IconChecklist />,
     title: 'Bienvenido/a a Foo Medical',
     description:
       'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',

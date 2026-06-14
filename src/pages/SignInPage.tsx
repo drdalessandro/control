@@ -16,10 +16,10 @@ export function SignInPage(): JSX.Element {
           googleClientId={MEDPLUM_GOOGLE_CLIENT_ID}
           onSuccess={() => navigate('/')?.catch(console.error)}
         >
-          <h2>Iniciar sesión en Foo Medical</h2>
+          <h2>Ingresar</h2>
         </SignInForm>
       </Box>
-      <BackgroundImage src="https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1567&amp;q=80" />
+      <BackgroundImage src="https://app.medplum.com.ar/static/img/favaloro.png />
     </SimpleGrid>
   );
 }

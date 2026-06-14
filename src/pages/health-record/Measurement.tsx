@@ -71,7 +71,7 @@ export function Measurement(): JSX.Element | null {
 
     const obs: Observation = {
       resourceType: 'Observation',
-      status: 'preliminary',
+      status: 'final',
       subject: createReference(patient),
       effectiveDateTime: new Date().toISOString(),
       code: {

@@ -6,7 +6,7 @@ import type { Observation, ObservationComponent, Patient } from '@medplum/fhirty
 import { Document, Form, useMedplum } from '@medplum/react';
 import { IconAlertCircle } from '@tabler/icons-react';
 import type { ChartData, ChartDataset } from 'chart.js';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { JSX } from 'react';
 import { useParams } from 'react-router';
 import { LineChart } from '../../components/LineChart';
@@ -19,10 +19,18 @@ export function Measurement(): JSX.Element | null {
   const patient = medplum.getProfile() as Patient;
   const [modalOpen, setModalOpen] = useState(false);
   const [chartData, setChartData] = useState<ChartData<'line', number[]>>();
+  const [observations, setObservations] = useState<Observation[]>([]);
 
-  const observations = medplum
-    .searchResources('Observation', `code=${code}&patient=${getReferenceString(patient)}`)
-    .read();
+  const loadObservations = useCallback(() => {
+    medplum
+      .searchResources('Observation', `code=${code}&patient=${getReferenceString(patient)}`)
+      .then(setObservations)
+      .catch(console.error);
+  }, [medplum, code, patient]);
+
+  useEffect(() => {
+    loadObservations();
+  }, [loadObservations]);
 
   useEffect(() => {
     if (observations) {
@@ -43,8 +51,6 @@ export function Measurement(): JSX.Element | null {
   }, [chartDatasets, observations]);
 
   function addObservation(formData: Record<string, string>): void {
-    console.log(formData);
-
     const obs: Observation = {
       resourceType: 'Observation',
       status: 'preliminary',
@@ -92,7 +98,10 @@ export function Measurement(): JSX.Element | null {
 
     medplum
       .createResource(obs)
-      .then(() => setModalOpen(false))
+      .then(() => {
+        setModalOpen(false);
+        loadObservations();
+      })
       .catch(console.error);
   }
 

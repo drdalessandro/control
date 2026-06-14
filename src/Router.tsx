@@ -29,6 +29,7 @@ import { ObservationPage } from './pages/ObservationPage';
 import { PatientIntakeQuestionnairePage } from './pages/PatientIntakeQuestionnairePage';
 import { QuestionnairePage } from './pages/QuestionnairePage';
 import { ScreeningQuestionnairePage } from './pages/ScreeningQuestionnairePage';
+import { SdohQuestionnairePage } from './pages/SdohQuestionnairePage';
 import { SignOutPage } from './pages/SignOutPage';
 
 export function Router(): JSX.Element {
@@ -40,6 +41,7 @@ export function Router(): JSX.Element {
       </Route>
       <Route path="Questionnaire/:questionnaireId" element={<QuestionnairePage />} />
       <Route path="screening-questionnaire" element={<ScreeningQuestionnairePage />} />
+      <Route path="cuestionario-sdoh" element={<SdohQuestionnairePage />} />
       <Route path="patient-intake-questionnaire" element={<PatientIntakeQuestionnairePage />} />
       <Route path="health-record" element={<HealthRecord />}>
         <Route index element={<Navigate replace to="/health-record/lab-results" />} />

@@ -6,7 +6,7 @@ import type { Observation, ObservationComponent, Patient } from '@medplum/fhirty
 import { Document, Form, useMedplum } from '@medplum/react';
 import { IconAlertCircle } from '@tabler/icons-react';
 import type { ChartData, ChartDataset } from 'chart.js';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { JSX } from 'react';
 import { useParams } from 'react-router';
 import { LineChart } from '../../components/LineChart';
@@ -19,10 +19,19 @@ export function Measurement(): JSX.Element | null {
   const patient = medplum.getProfile() as Patient;
   const [modalOpen, setModalOpen] = useState(false);
   const [chartData, setChartData] = useState<ChartData<'line', number[]>>();
+  const [observations, setObservations] = useState<Observation[]>([]);
+  const [formError, setFormError] = useState<string>();
 
-  const observations = medplum
-    .searchResources('Observation', `code=${code}&patient=${getReferenceString(patient)}`)
-    .read();
+  const loadObservations = useCallback(() => {
+    medplum
+      .searchResources('Observation', `code=${code}&patient=${getReferenceString(patient)}`)
+      .then(setObservations)
+      .catch(console.error);
+  }, [medplum, code, patient]);
+
+  useEffect(() => {
+    loadObservations();
+  }, [loadObservations]);
 
   useEffect(() => {
     if (observations) {
@@ -43,7 +52,22 @@ export function Measurement(): JSX.Element | null {
   }, [chartDatasets, observations]);
 
   function addObservation(formData: Record<string, string>): void {
-    console.log(formData);
+    // Presión arterial: la sistólica (8480-6) debe ser mayor que la diastólica (8462-4).
+    const systolicDataset = chartDatasets.find((d) => d.code === '8480-6');
+    const diastolicDataset = chartDatasets.find((d) => d.code === '8462-4');
+    if (systolicDataset && diastolicDataset) {
+      const systolic = Number.parseFloat(formData[systolicDataset.label]);
+      const diastolic = Number.parseFloat(formData[diastolicDataset.label]);
+      if (!Number.isFinite(systolic) || !Number.isFinite(diastolic)) {
+        setFormError('Ingresá ambos valores: sistólica (el número más alto) y diastólica (el más bajo).');
+        return;
+      }
+      if (systolic <= diastolic) {
+        setFormError('La presión sistólica debe ser mayor que la diastólica. Revisá que no estén invertidas.');
+        return;
+      }
+    }
+    setFormError(undefined);
 
     const obs: Observation = {
       resourceType: 'Observation',
@@ -74,8 +98,8 @@ export function Measurement(): JSX.Element | null {
         code: {
           coding: [
             {
-              code: '8462-4',
-              display: 'Diastolic Blood Pressure',
+              code: item.code,
+              display: item.label,
               system: 'http://loinc.org',
             },
           ],
@@ -92,7 +116,10 @@ export function Measurement(): JSX.Element | null {
 
     medplum
       .createResource(obs)
-      .then(() => setModalOpen(false))
+      .then(() => {
+        setModalOpen(false);
+        loadObservations();
+      })
       .catch(console.error);
   }
 
@@ -100,7 +127,14 @@ export function Measurement(): JSX.Element | null {
     <Document>
       <Group justify="space-between" mb="xl">
         <Title order={1}>{title}</Title>
-        <Button onClick={() => setModalOpen(true)}>Agregar medición</Button>
+        <Button
+          onClick={() => {
+            setFormError(undefined);
+            setModalOpen(true);
+          }}
+        >
+          Agregar medición
+        </Button>
       </Group>
       {chartData && <LineChart chartData={chartData} />}
       <Box my="xl">
@@ -126,9 +160,22 @@ export function Measurement(): JSX.Element | null {
           </Table.Tbody>
         </Table>
       )}
-      <Modal size="lg" opened={modalOpen} onClose={() => setModalOpen(false)} title={title}>
+      <Modal
+        size="lg"
+        opened={modalOpen}
+        onClose={() => {
+          setFormError(undefined);
+          setModalOpen(false);
+        }}
+        title={title}
+      >
         <Form onSubmit={addObservation}>
           <Stack gap="md">
+            {formError && (
+              <Alert icon={<IconAlertCircle size={16} />} color="red" radius="md">
+                {formError}
+              </Alert>
+            )}
             <Group grow wrap="nowrap">
               {chartDatasets.map((component) => (
                 <NumberInput key={component.label} label={component.label} name={component.label} />

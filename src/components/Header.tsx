@@ -1,6 +1,6 @@
 // SPDX-FileCopyrightText: Copyright Orangebot, Inc. and Medplum contributors
 // SPDX-License-Identifier: Apache-2.0
-import { AppShell, Burger, Container, Group, Menu, UnstyledButton, useMantineTheme } from '@mantine/core';
+import { AppShell, Burger, Container, Drawer, Group, Menu, Stack, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { ResourceAvatar, useMedplumProfile } from '@medplum/react';
 import { IconChevronDown, IconLogout, IconSettings, IconUserCircle } from '@tabler/icons-react';
@@ -80,6 +80,23 @@ export function Header(): JSX.Element {
           <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
         </div>
       </Container>
+      <Drawer
+        opened={opened}
+        onClose={toggle}
+        size="75%"
+        padding="md"
+        title="Menú"
+        hiddenFrom="sm"
+        zIndex={1000000}
+      >
+        <Stack gap="xs">
+          {navigation.map((link) => (
+            <Link key={link.name} to={link.href} className={classes.link} onClick={toggle}>
+              {link.name}
+            </Link>
+          ))}
+        </Stack>
+      </Drawer>
     </AppShell.Header>
   );
 }

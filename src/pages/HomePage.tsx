@@ -164,7 +164,7 @@ export function HomePage(): JSX.Element {
           <Card shadow="md" radius="md" className={classes.card} p="xl">
             <IconSquareCheck />
             <Text size="lg" fw={500} mt="md">
-              Better rest, better health
+              Mejor descanso, mejor salud
             </Text>
             <Text size="sm" color="dimmed" my="sm">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste
@@ -172,7 +172,7 @@ export function HomePage(): JSX.Element {
               impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.
             </Text>
             <Group>
-              <Button>Invite Friends</Button>
+              <Button>Invitar amigos</Button>
             </Group>
           </Card>
         </Container>
@@ -184,10 +184,10 @@ export function HomePage(): JSX.Element {
               <Image src={HealthVisitImage} m="-40px 30px -40px -40px" w="40%" />
               <div>
                 <Badge color={theme.primaryColor} size="xl">
-                  Now available
+                  Ya disponible
                 </Badge>
                 <Text size="lg" fw={500} mt="md">
-                  Title
+                  Título
                 </Text>
                 <Text size="sm" color="dimmed" my="sm">
                   Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque,
@@ -223,11 +223,11 @@ export function HomePage(): JSX.Element {
                 <Group wrap="nowrap">
                   <Avatar src={DoctorImage} size="xl" />
                   <div>
-                    <Text fw={500}>Primary Care Provider</Text>
+                    <Text fw={500}>Médico de cabecera</Text>
                     <Text size="sm" color="dimmed" my="sm">
-                      Having a consistent, trusted provider can lead to better health.
+                      Tener un médico de confianza y constante puede mejorar tu salud.
                     </Text>
-                    <Button onClick={() => navigate('/account/provider')?.catch(console.error)}>Choose Provider</Button>
+                    <Button onClick={() => navigate('/account/provider')?.catch(console.error)}>Elegir médico</Button>
                   </div>
                 </Group>
               </Card>

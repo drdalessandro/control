@@ -1,120 +1,61 @@
 // SPDX-FileCopyrightText: Copyright Orangebot, Inc. and Medplum contributors
 // SPDX-License-Identifier: Apache-2.0
 import {
-  Anchor,
-  Avatar,
   Badge,
   Box,
   Button,
   Card,
   Container,
-  Flex,
-  Grid,
   Group,
-  Image,
   Overlay,
-  Stack,
+  Progress,
+  RingProgress,
+  SimpleGrid,
   Text,
+  ThemeIcon,
   Title,
   useMantineTheme,
 } from '@mantine/core';
 import { formatHumanName } from '@medplum/core';
 import type { Patient, Practitioner } from '@medplum/fhirtypes';
 import { useMedplumProfile } from '@medplum/react';
-import { IconChecklist, IconClipboardHeart, IconGift, IconSquareCheck } from '@tabler/icons-react';
+import {
+  IconCalendarHeart,
+  IconClipboardHeart,
+  IconHeartbeat,
+  IconMessage2,
+  IconReportMedical,
+  IconStethoscope,
+} from '@tabler/icons-react';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
-import DoctorImage from '../img/homePage/doctor.svg';
-import HealthRecordImage from '../img/homePage/health-record.svg';
-import HealthVisitImage from '../img/homePage/health-visit.jpg';
-import PharmacyImage from '../img/homePage/pharmacy.svg';
-import PillImage from '../img/homePage/pill.svg';
 import classes from './HomePage.module.css';
 
-const carouselItems = [
-  {
-    img: <IconChecklist />,
-    title: 'Bienvenido/a a Foo Medical',
-    description:
-      'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
-    url: '/screening-questionnaire',
-    label: 'Evaluación AHC HRSN',
-  },
-  {
-    img: <IconChecklist />,
-    title: 'Cuestionario de admisión del paciente',
-    description:
-      'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
-    url: '/patient-intake-questionnaire',
-    label: 'Comenzar formulario',
-  },
-  {
-    img: <IconChecklist />,
-    title: 'Elegir un médico',
-    description:
-      'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
-    url: '/account/provider/choose-a-primary-care-povider',
-    label: 'Elegir un médico de cabecera',
-  },
-  {
-    img: <IconChecklist />,
-    title: 'Contacto de emergencia',
-    description:
-      'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
-    url: '/account',
-    label: 'Agregar contacto de emergencia',
-  },
-];
-
-const linkPages = [
-  {
-    img: HealthRecordImage,
-    title: 'Registro de Salud',
-    description: '',
-    href: '/health-record',
-  },
-  {
-    img: PillImage,
-    title: 'Solicitar renovación de receta',
-    description: '',
-    href: '/health-record/medications',
-  },
-  {
-    img: PharmacyImage,
-    title: 'Farmacia preferida',
-    description: 'Walgreens D2866 1363 Divisadero St  DIVISADERO',
-    href: '#',
-  },
-];
-
-const recommendations = [
-  {
-    title: 'Obtener recomendaciones de salud para viajar',
-    description: 'Averiguá qué vacunas y medicamentos necesitás para tu viaje.',
-  },
-  {
-    title: 'Obtener reembolso FSA/HSA',
-    description: 'Solicitá una receta para artículos de venta libre.',
-  },
-  {
-    title: 'Solicitar registro de salud',
-    description: 'Hacé que envíen o reciban registros desde Foo Medical.',
-  },
+// Acciones rápidas del paciente. Verbos que invitan a la acción.
+const quickActions = [
+  { icon: IconHeartbeat, title: 'Cargar mi presión', description: '30 segundos', href: '/health-record/vitals/blood-pressure' },
+  { icon: IconReportMedical, title: 'Cargar laboratorio', description: 'Resultados de tu análisis', href: '/laboratorio' },
+  { icon: IconStethoscope, title: 'Mis registros', description: 'Tu salud en un lugar', href: '/health-record' },
+  { icon: IconCalendarHeart, title: 'Mis turnos', description: 'Pedí atención', href: '/get-care' },
 ];
 
 export function HomePage(): JSX.Element {
   const navigate = useNavigate();
   const theme = useMantineTheme();
   const profile = useMedplumProfile() as Patient | Practitioner;
-  const profileName = profile.name ? formatHumanName(profile.name[0]) : '';
+  const firstName = profile.name?.[0]?.given?.[0] ?? (profile.name ? formatHumanName(profile.name[0]) : '');
+
+  // Plan 100 Días — estado visual (placeholder; en Fase 2 se lee del CarePlan real).
+  const planDay = 1;
+  const planTotal = 100;
+  const planPct = Math.round((planDay / planTotal) * 100);
 
   return (
     <Box bg="gray.0">
       <Box className={classes.announcements}>
-        <span>
-          Los anuncios van acá. <Anchor href="#">Incluí enlaces si hace falta.</Anchor>
-        </span>
+        <span>Bienvenido/a a Favaloro Argentina · Tu Plan Bienestar 100 Días te espera.</span>
       </Box>
+
       <div className={classes.hero}>
         <Overlay
           gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.4) 40%)"
@@ -123,23 +64,83 @@ export function HomePage(): JSX.Element {
         />
         <Container className={classes.heroContainer}>
           <Title className={classes.heroTitle}>
-            Hola <span className="text-teal-600">{profileName}</span>,<br /> estamos para ayudarte
+            Hola {firstName} 👋<br /> tu bienestar empieza hoy
           </Title>
-          <Button size="xl" radius="xl" className={classes.heroButton}>
-            Atención
+          <Text c="white" size="xl" maw={620} mb="xl">
+            Un paso por día. Te acompañamos durante 100 días para cuidar tu corazón, tus riñones y tu metabolismo.
+          </Text>
+          <Button
+            size="xl"
+            radius="xl"
+            className={classes.heroButton}
+            onClick={() => navigate('/care-plan')?.catch(console.error)}
+          >
+            Empezar mi Plan Bienestar 100 Días
           </Button>
         </Container>
       </div>
+
       <Box className={classes.callToAction}>
         <Group justify="center">
-          <IconGift />
-          <p>Poné las llamadas a la acción acá</p>
-          <Button variant="white" onClick={() => navigate('/messages')?.catch(console.error)}>
-            Enviar mensaje
+          <IconMessage2 />
+          <p>¿Tenés una duda? Tu equipo de salud está para ayudarte.</p>
+          <Button variant="white" onClick={() => navigate('/Communication')?.catch(console.error)}>
+            Escribir a mi equipo
           </Button>
         </Group>
       </Box>
+
+      {/* Plan 100 Días — tarjeta de progreso */}
       <Box p="lg">
+        <Container>
+          <Card shadow="md" radius="md" withBorder p="xl">
+            <Group justify="space-between" align="center" wrap="wrap" gap="lg">
+              <Group wrap="nowrap" gap="xl">
+                <RingProgress
+                  size={120}
+                  thickness={10}
+                  roundCaps
+                  sections={[{ value: planPct, color: theme.primaryColor }]}
+                  label={
+                    <Text ta="center" fw={700} size="lg">
+                      Día {planDay}
+                      <Text span c="dimmed" fw={400} size="sm">
+                        {' '}
+                        / {planTotal}
+                      </Text>
+                    </Text>
+                  }
+                />
+                <div>
+                  <Text fw={700} size="lg">
+                    Plan Bienestar 100 Días
+                  </Text>
+                  <Text c="dimmed" size="sm" maw={440}>
+                    Pequeños pasos, grandes cambios. Estás en la etapa <b>Conocerte</b>: cargá tus datos y completá el
+                    cuestionario para ver tu mapa de salud.
+                  </Text>
+                </div>
+              </Group>
+              <Button onClick={() => navigate('/care-plan')?.catch(console.error)}>Ver mi plan</Button>
+            </Group>
+            <Progress value={planPct} mt="lg" radius="xl" size="md" />
+            <Group mt="xs" gap="xl">
+              <Text size="xs" c="dimmed">
+                Etapa 1 · Conocerte (días 1–30)
+              </Text>
+              <Text size="xs" c="dimmed">
+                Etapa 2 · Construir hábitos (31–70)
+              </Text>
+              <Text size="xs" c="dimmed">
+                Etapa 3 · Sostener (71–100)
+              </Text>
+            </Group>
+          </Card>
+        </Container>
+      </Box>
+
+      {/* Cuestionario SDOH — recomendado */}
+      <Box p="lg" pt={0}>
         <Container>
           <Card
             shadow="md"
@@ -171,114 +172,36 @@ export function HomePage(): JSX.Element {
           </Card>
         </Container>
       </Box>
-      <Box p="lg">
+
+      {/* Acciones rápidas */}
+      <Box p="lg" pt={0} pb="xl">
         <Container>
-          <Grid>
-            {carouselItems.map((item, index) => (
-              <Grid.Col key={`card-${index}`} span={3} pb={40}>
-                <Card shadow="md" radius="md" className={classes.card} p="xl">
-                  <IconSquareCheck />
-                  <Text size="lg" fw={500} mt="md">
-                    {item.title}
-                  </Text>
-                  <Text size="sm" color="dimmed" my="sm">
-                    {item.description}
-                  </Text>
-                  <Anchor href={item.url}>{item.label}</Anchor>
-                </Card>
-              </Grid.Col>
-            ))}
-          </Grid>
-        </Container>
-      </Box>
-      <Box p="lg">
-        <Container>
-          <Card shadow="md" radius="md" className={classes.card} p="xl">
-            <IconSquareCheck />
-            <Text size="lg" fw={500} mt="md">
-              Mejor descanso, mejor salud
-            </Text>
-            <Text size="sm" color="dimmed" my="sm">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste
-              dolor cupiditate blanditiis ratione. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores
-              impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.
-            </Text>
-            <Group>
-              <Button>Invitar amigos</Button>
-            </Group>
-          </Card>
-        </Container>
-      </Box>
-      <Box p="lg">
-        <Container>
-          <Card shadow="md" radius="md" className={classes.card} p="xl">
-            <Flex>
-              <Image src={HealthVisitImage} m="-40px 30px -40px -40px" w="40%" />
-              <div>
-                <Badge color={theme.primaryColor} size="xl">
-                  Ya disponible
-                </Badge>
-                <Text size="lg" fw={500} mt="md">
-                  Título
+          <Text fw={600} size="lg" mb="md">
+            Tu acción de hoy
+          </Text>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            {quickActions.map((action) => (
+              <Card
+                key={action.href}
+                shadow="md"
+                radius="md"
+                withBorder
+                p="lg"
+                style={{ cursor: 'pointer' }}
+                onClick={() => navigate(action.href)?.catch(console.error)}
+              >
+                <ThemeIcon variant="light" size={48} radius="md">
+                  <action.icon size={28} stroke={1.5} />
+                </ThemeIcon>
+                <Text fw={600} mt="md">
+                  {action.title}
                 </Text>
-                <Text size="sm" color="dimmed" my="sm">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque,
-                  iste dolor cupiditate blanditiis ratione. Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.
+                <Text size="sm" c="dimmed">
+                  {action.description}
                 </Text>
-              </div>
-            </Flex>
-          </Card>
-        </Container>
-      </Box>
-      <Box p="lg">
-        <Container>
-          <Grid columns={3} pb="xl">
-            {linkPages.map((item, index) => (
-              <Grid.Col key={`card-${index}`} span={1}>
-                <Card shadow="md" radius="md" className={classes.card} p="xl">
-                  <Image src={item.img} w={80} />
-                  <Text size="lg" fw={500} mt="md">
-                    {item.title}
-                  </Text>
-                </Card>
-              </Grid.Col>
+              </Card>
             ))}
-          </Grid>
-        </Container>
-      </Box>
-      <Box p="lg">
-        <Container>
-          <Grid columns={2} pb="xl">
-            <Grid.Col span={1}>
-              <Card shadow="md" radius="md" className={classes.card} p="xl">
-                <Group wrap="nowrap">
-                  <Avatar src={DoctorImage} size="xl" />
-                  <div>
-                    <Text fw={500}>Médico de cabecera</Text>
-                    <Text size="sm" color="dimmed" my="sm">
-                      Tener un médico de confianza y constante puede mejorar tu salud.
-                    </Text>
-                    <Button onClick={() => navigate('/account/provider')?.catch(console.error)}>Elegir médico</Button>
-                  </div>
-                </Group>
-              </Card>
-            </Grid.Col>
-            <Grid.Col span={1}>
-              <Card shadow="md" radius="md" className={classes.card} p="xl">
-                <Stack>
-                  {recommendations.map((item, index) => (
-                    <div key={`recommendation-${index}`}>
-                      <Text fw={500}>{item.title}</Text>
-                      <Text size="sm" color="dimmed" my="sm">
-                        {item.description}
-                      </Text>
-                    </div>
-                  ))}
-                </Stack>
-              </Card>
-            </Grid.Col>
-          </Grid>
+          </SimpleGrid>
         </Container>
       </Box>
     </Box>

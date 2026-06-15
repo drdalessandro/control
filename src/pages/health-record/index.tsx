@@ -9,7 +9,7 @@ import { SideMenu } from '../../components/SideMenu';
 import { measurementsMeta, vitalsMeasurementIds } from './Measurement.data';
 
 const sideMenu = {
-  title: 'Registro de Salud',
+  title: 'Mi Salud',
   menu: [
     { name: 'Resultados de Laboratorio', href: '/health-record/lab-results' },
     { name: 'Medicamentos', href: '/health-record/medications' },

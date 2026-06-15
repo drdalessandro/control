@@ -99,7 +99,7 @@ export function LandingPage(): JSX.Element {
         <Box bg="gray.0" py={{ base: 80, md: 120 }}>
           <Container size="xl">
             <Title order={2} ta="center" size="2.5rem" fw={800} mb="xl">
-              ¿Qué incluye el ecosistema GEMS?
+              ¿Qué incluye el ecosistema?
             </Title>
             <Grid gutter="xl" mt="xl">
               {features.map((feature, index) => (
@@ -129,7 +129,7 @@ export function LandingPage(): JSX.Element {
               </Title>
               {/* CORRECCIÓN 2: maxW -> maw */}
               <Text c="teal.1" size="lg" maw={600}>
-                Unite hoy a la red de pacientes que ya están tomando el control de su edad vascular.
+                Unite hoy a la red de pacientes que ya están optimizando su salud.
               </Text>
               <Button size="xl" radius="xl" color="white" c="teal.9" mt="md" onClick={() => navigate('/register')}>
                 Crear mi cuenta gratis

@@ -11,20 +11,17 @@ import {
   Text,
   ThemeIcon,
   Title,
-  useMantineTheme,
   Transition,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { useMedplum, useMedplumProfile } from '@medplum/react';
+import { useMedplumProfile } from '@medplum/react';
 import { IconCheck, IconHeartbeat, IconScale, IconSend } from '@tabler/icons-react';
 import { useState } from 'react';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
 
 export function Vitals(): JSX.Element {
-  const theme = useMantineTheme();
   const navigate = useNavigate();
-  const medplum = useMedplum();
   const profile = useMedplumProfile();
 
   // Estados limpios y directos para los inputs
@@ -34,7 +31,7 @@ export function Vitals(): JSX.Element {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Verificamos si hay al menos un dato para habilitar el botón de envío
-  const canSubmit = (systolic && diastolic) || weight;
+  const canSubmit = Boolean((systolic && diastolic) || weight);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
@@ -44,8 +41,7 @@ export function Vitals(): JSX.Element {
       // Simulamos un pequeñísimo delay para que se sienta el efecto de "enviando"
       await new Promise((resolve) => setTimeout(resolve, 800));
 
-      /* 
-      TODO: Próximo paso. Acá armaremos los recursos 'Observation' nativos de FHIR:
+      /* TODO: Próximo paso. Acá armaremos los recursos 'Observation' nativos de FHIR:
       if (systolic && diastolic) {
         await medplum.createResource({
           resourceType: 'Observation',
@@ -67,7 +63,7 @@ export function Vitals(): JSX.Element {
         radius: 'md',
       });
 
-      // Limpiamos los campos o volvemos al inicio
+      // Limpiamos los campos y volvemos al inicio
       setSystolic('');
       setDiastolic('');
       setWeight('');
@@ -85,8 +81,7 @@ export function Vitals(): JSX.Element {
   };
 
   return (
-    {/* CORRECCIÓN APLICADA AQUÍ: minH -> mih */}
-    <Box bg="gray.0" mih="100vh" pb={100} pt={20}>
+    <Box bg="gray.0" mih="100vh" pb={120} pt={20} pos="relative">
       <Container size="sm">
         
         {/* Cabecera Simple y Conversacional */}
@@ -101,7 +96,7 @@ export function Vitals(): JSX.Element {
 
         <Stack gap="lg">
           {/* TARJETA 1: PRESIÓN ARTERIAL */}
-          <Card shadow="sm" radius="xl" p="xl" bg="white" style={{ border: '1px solid #eaeaea' }}>
+          <Card shadow="sm" radius="xl" p="xl" bg="white" withBorder>
             <Group wrap="nowrap" mb="lg">
               <ThemeIcon size={48} radius="xl" color="red" variant="light">
                 <IconHeartbeat size={28} />
@@ -140,7 +135,7 @@ export function Vitals(): JSX.Element {
           </Card>
 
           {/* TARJETA 2: PESO */}
-          <Card shadow="sm" radius="xl" p="xl" bg="white" style={{ border: '1px solid #eaeaea' }}>
+          <Card shadow="sm" radius="xl" p="xl" bg="white" withBorder>
             <Group wrap="nowrap" mb="lg">
               <ThemeIcon size={48} radius="xl" color="blue" variant="light">
                 <IconScale size={28} />
@@ -167,20 +162,20 @@ export function Vitals(): JSX.Element {
             />
           </Card>
         </Stack>
-
       </Container>
 
-      {/* BOTÓN FLOTANTE TIPO WHATSAPP (Anclado abajo) */}
-      <Transition mounted={!!canSubmit} transition="slide-up" duration={200} timingFunction="ease">
-        {(styles) => (
+      {/* BOTÓN FLOTANTE REFACTORIZADO (Libre de errores TS) */}
+      <Transition mounted={canSubmit} transition="slide-up" duration={200} timingFunction="ease">
+        {(transitionStyles) => (
           <Box
             style={{
-              ...styles,
+              ...transitionStyles,
               position: 'fixed',
               bottom: 0,
               left: 0,
               right: 0,
               padding: '20px',
+              paddingBottom: '30px',
               background: 'linear-gradient(to top, rgba(255,255,255,1) 60%, rgba(255,255,255,0))',
               zIndex: 100,
             }}

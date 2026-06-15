@@ -46,9 +46,9 @@ export function LandingPage(): JSX.Element {
             <Grid align="center" gutter={60}>
               <Grid.Col span={{ base: 12, md: 6 }}>
                 <Title order={1} size="3.5rem" fw={900} lh={1.1} mb="md" className={classes.title}>
-                  Tu Bienestar, en tus manos. <br />
+                  Tu Bienestar, en tu mano. <br />
                   <Text component="span" className={classes.highlight} inherit>
-                    100 días para mejorar!
+                    100 días para optimizar!
                   </Text>
                 </Title>
                 {/* CORRECCIÓN 1: maxW -> maw */}

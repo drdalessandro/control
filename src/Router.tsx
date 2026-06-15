@@ -10,7 +10,7 @@ import { CarePlanPage } from './pages/care-plan';
 import { ActionItem } from './pages/care-plan/ActionItem';
 import { ActionItems } from './pages/care-plan/ActionItems';
 import { GetCare } from './pages/GetCarePage';
-import { HealthRecord } from './pages/health-record';
+import { HealthRecord } from './pages/health-record/HealthRecord';
 import { LabResult } from './pages/health-record/LabResult';
 import { LabResults } from './pages/health-record/LabResults';
 import { Measurement } from './pages/health-record/Measurement';

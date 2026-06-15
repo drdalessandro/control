@@ -59,7 +59,7 @@ export function ScientificEvidence(): JSX.Element {
                 Medicina basada en <Text component="span" c="teal.4" inherit>Evidencia Pura.</Text>
               </Title>
               <Text size="xl" c="gray.4" mt="md" maw={700}>
-                El Ecosistema GEMS y EPA Bienestar están impulsados por algoritmos validados internacionalmente y respaldados por la supervisión cardiológica del más alto nivel.
+                Impulsados por algoritmos validados internacionalmente y respaldados por American Heart Association (AHA).
               </Text>
             </Stack>
           </Container>
@@ -78,7 +78,7 @@ export function ScientificEvidence(): JSX.Element {
                     <Image 
                       src={pillar.imgSrc} 
                       alt={`Gráfico de ${pillar.title}`} 
-                      fallbackSrc="./src/img/landingPage/le8.png"
+                      fallbackSrc="src/img/landingPage/le8.png"
                     />
                   </Card>
                 </Grid.Col>

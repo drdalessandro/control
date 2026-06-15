@@ -27,7 +27,7 @@ export function RegisterPage(): JSX.Element {
             onSuccess={() => navigate('/')?.catch(console.error)}
           >
             <h2 style={{ textAlign: 'center', marginBottom: 24, fontFamily: 'sans-serif' }}>
-              Registrarse en Foo Medical
+              Crear una cuenta
             </h2>
           </RegisterForm>
         </Box>

@@ -53,7 +53,7 @@ export function LandingPage(): JSX.Element {
                 </Title>
                 {/* CORRECCIÓN 1: maxW -> maw */}
                 <Text size="xl" c="dimmed" mb="xl" maw={500}>
-                  Una Red de Cardiólogos expertos, te acompañaremos durante 100 días, en un proceso de aprendizaje, optimización y desafíos para optimizar tu salud!
+                  Una Red de Cardiólogos expertos, te acompañaremos en un proceso de aprendizaje, desafíos y gratificaciones para mejorar tu salud!
                 </Text>
                 <Group>
                   <Button radius="xl" size="lg" color="teal" onClick={() => navigate('/register')}>

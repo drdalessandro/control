@@ -51,7 +51,8 @@ export function LandingPage(): JSX.Element {
                     100 días para transformarlo.
                   </Text>
                 </Title>
-                <Text size="xl" c="dimmed" mb="xl" maxW={500}>
+                {/* CORRECCIÓN 1: maxW -> maw */}
+                <Text size="xl" c="dimmed" mb="xl" maw={500}>
                   EPA Bienestar combina datos en tiempo real, inteligencia clínica y el respaldo de expertos globales para alejarte del riesgo cardiovascular.
                 </Text>
                 <Group>
@@ -126,7 +127,8 @@ export function LandingPage(): JSX.Element {
               <Title order={2} c="white" size="2.5rem" fw={800}>
                 Tu Segunda Opinión Médica te espera.
               </Title>
-              <Text c="teal.1" size="lg" maxW={600}>
+              {/* CORRECCIÓN 2: maxW -> maw */}
+              <Text c="teal.1" size="lg" maw={600}>
                 Unite hoy a la red de pacientes que ya están tomando el control de su edad vascular.
               </Text>
               <Button size="xl" radius="xl" color="white" c="teal.9" mt="md" onClick={() => navigate('/register')}>

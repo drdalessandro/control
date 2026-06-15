@@ -12,6 +12,7 @@ import { Loading } from './components/Loading';
 import { RegisterPage } from './pages/RegisterPage';
 import { SignInPage } from './pages/SignInPage';
 import { LandingPage } from './pages/landing';
+import { ScientificEvidence } from './pages/landing/ScientificEvidence';
 
 export function App(): JSX.Element | null {
   const medplum = useMedplum();
@@ -26,6 +27,7 @@ export function App(): JSX.Element | null {
         <Route path="/" element={<LandingPage />} />
         <Route path="signin" element={<SignInPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="/evidencia-cientifica" element={<ScientificEvidence />} />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
     );

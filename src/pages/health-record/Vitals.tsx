@@ -14,65 +14,181 @@ import {
   Transition,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { useMedplumProfile } from '@medplum/react';
-import { IconCheck, IconHeartbeat, IconScale, IconSend } from '@tabler/icons-react';
+import { useMedplum, useMedplumProfile } from '@medplum/react';
+import { IconCheck, IconHeartbeat, IconMoonStars, IconScale, IconSend } from '@tabler/icons-react';
 import { useState } from 'react';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
 
 export function Vitals(): JSX.Element {
   const navigate = useNavigate();
+  const medplum = useMedplum();
   const profile = useMedplumProfile();
 
   // Estados limpios y directos para los inputs
   const [systolic, setSystolic] = useState<number | ''>('');
   const [diastolic, setDiastolic] = useState<number | ''>('');
   const [weight, setWeight] = useState<number | ''>('');
+  const [sleepHours, setSleepHours] = useState<number | ''>(''); // Nuevo estado para sueño
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Verificamos si hay al menos un dato para habilitar el botón de envío
-  const canSubmit = Boolean((systolic && diastolic) || weight);
+  // Verificamos si hay al menos un dato cargado
+  const canSubmit = Boolean((systolic && diastolic) || weight || sleepHours);
 
   const handleSubmit = async () => {
+    // Si la sesión expiró o no hay paciente logueado
+    if (!profile || !profile.reference) {
+      notifications.show({
+        title: 'Sesión no encontrada',
+        message: 'No pudimos verificar tu identidad. Por favor, volvé a ingresar.',
+        color: 'red',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
+    // Capturamos el momento exacto de la carga
+    const effectiveDateTime = new Date().toISOString();
+    const promises = [];
+
     try {
-      // ACÁ VA LA MAGIA DE MEDPLUM (FHIR R4)
-      // Simulamos un pequeñísimo delay para que se sienta el efecto de "enviando"
-      await new Promise((resolve) => setTimeout(resolve, 800));
-
-      /* TODO: Próximo paso. Acá armaremos los recursos 'Observation' nativos de FHIR:
+      // 1. OBSERVATION: Presión Arterial (LOINC: 85354-9)
       if (systolic && diastolic) {
-        await medplum.createResource({
-          resourceType: 'Observation',
-          status: 'final',
-          category: [{ coding: [{ system: 'http://terminology.hl7.org/CodeSystem/observation-category', code: 'vital-signs' }] }],
-          code: { coding: [{ system: 'http://loinc.org', code: '85354-9' }] },
-          subject: { reference: profile?.reference },
-          ...
-        });
+        promises.push(
+          medplum.createResource({
+            resourceType: 'Observation',
+            status: 'final',
+            category: [
+              {
+                coding: [
+                  {
+                    system: 'http://terminology.hl7.org/CodeSystem/observation-category',
+                    code: 'vital-signs',
+                    display: 'Vital Signs',
+                  },
+                ],
+              },
+            ],
+            code: {
+              coding: [
+                {
+                  system: 'http://loinc.org',
+                  code: '85354-9',
+                  display: 'Blood pressure panel with all children optional',
+                },
+              ],
+            },
+            subject: { reference: profile.reference },
+            effectiveDateTime,
+            component: [
+              {
+                code: {
+                  coding: [{ system: 'http://loinc.org', code: '8480-6', display: 'Systolic blood pressure' }],
+                },
+                valueQuantity: { value: Number(systolic), unit: 'mmHg', system: 'http://unitsofmeasure.org', code: 'mm[Hg]' },
+              },
+              {
+                code: {
+                  coding: [{ system: 'http://loinc.org', code: '8462-4', display: 'Diastolic blood pressure' }],
+                },
+                valueQuantity: { value: Number(diastolic), unit: 'mmHg', system: 'http://unitsofmeasure.org', code: 'mm[Hg]' },
+              },
+            ],
+          })
+        );
       }
-      */
 
-      // Feedback visual de éxito tipo WhatsApp ("Enviado ✓✓")
+      // 2. OBSERVATION: Peso (LOINC: 29463-7)
+      if (weight) {
+        promises.push(
+          medplum.createResource({
+            resourceType: 'Observation',
+            status: 'final',
+            category: [
+              {
+                coding: [
+                  {
+                    system: 'http://terminology.hl7.org/CodeSystem/observation-category',
+                    code: 'vital-signs',
+                    display: 'Vital Signs',
+                  },
+                ],
+              },
+            ],
+            code: {
+              coding: [
+                {
+                  system: 'http://loinc.org',
+                  code: '29463-7',
+                  display: 'Body Weight',
+                },
+              ],
+            },
+            subject: { reference: profile.reference },
+            effectiveDateTime,
+            valueQuantity: { value: Number(weight), unit: 'kg', system: 'http://unitsofmeasure.org', code: 'kg' },
+          })
+        );
+      }
+
+      // 3. OBSERVATION: Horas de Sueño (LOINC: 93832-4)
+      if (sleepHours) {
+        promises.push(
+          medplum.createResource({
+            resourceType: 'Observation',
+            status: 'final',
+            category: [
+              {
+                coding: [
+                  {
+                    system: 'http://terminology.hl7.org/CodeSystem/observation-category',
+                    code: 'vital-signs',
+                    display: 'Vital Signs',
+                  },
+                ],
+              },
+            ],
+            code: {
+              coding: [
+                {
+                  system: 'http://loinc.org',
+                  code: '93832-4',
+                  display: 'Sleep duration',
+                },
+              ],
+            },
+            subject: { reference: profile.reference },
+            effectiveDateTime,
+            valueQuantity: { value: Number(sleepHours), unit: 'h', system: 'http://unitsofmeasure.org', code: 'h' },
+          })
+        );
+      }
+
+      // Disparamos todas las peticiones a la API en simultáneo
+      await Promise.all(promises);
+
+      // Feedback visual de éxito
       notifications.show({
         title: '¡Datos guardados!',
-        message: 'Tus métricas ya están actualizadas en tu Plan 100 Días.',
+        message: 'Tus métricas fueron subidas al servidor clínico exitosamente.',
         color: 'teal',
         icon: <IconCheck size={20} />,
         radius: 'md',
       });
 
-      // Limpiamos los campos y volvemos al inicio
+      // Limpiamos los campos y volvemos al dashboard
       setSystolic('');
       setDiastolic('');
       setWeight('');
+      setSleepHours('');
       navigate('/'); 
 
     } catch (error) {
+      console.error('Error al guardar datos en FHIR:', error);
       notifications.show({
-        title: 'Ups, algo falló',
-        message: 'No pudimos guardar tus datos. Intentá de nuevo.',
+        title: 'Error de conexión',
+        message: 'No pudimos guardar tus datos. Verificá tu conexión a internet.',
         color: 'red',
       });
     } finally {
@@ -84,7 +200,7 @@ export function Vitals(): JSX.Element {
     <Box bg="gray.0" mih="100vh" pb={120} pt={20} pos="relative">
       <Container size="sm">
         
-        {/* Cabecera Simple y Conversacional */}
+        {/* Cabecera */}
         <Box mb="xl" ta="center">
           <Title order={2} fw={800} c="gray.9">
             ¿Cómo venimos hoy?
@@ -161,10 +277,38 @@ export function Vitals(): JSX.Element {
               styles={{ input: { fontSize: '1.5rem', fontWeight: 600 } }}
             />
           </Card>
+
+          {/* TARJETA 3: SUEÑO */}
+          <Card shadow="sm" radius="xl" p="xl" bg="white" withBorder>
+            <Group wrap="nowrap" mb="lg">
+              <ThemeIcon size={48} radius="xl" color="indigo" variant="light">
+                <IconMoonStars size={28} />
+              </ThemeIcon>
+              <div>
+                <Text fw={700} size="lg">Horas de Sueño</Text>
+                <Text size="xs" c="dimmed">Recuperación nocturna</Text>
+              </div>
+            </Group>
+
+            <NumberInput
+              size="xl"
+              radius="md"
+              placeholder="Ej: 7"
+              value={sleepHours}
+              onChange={(val) => setSleepHours(val === '' ? '' : Number(val))}
+              min={0}
+              max={24}
+              decimalScale={1}
+              step={0.5}
+              hideControls
+              rightSection={<Text c="dimmed" fw={600} mr="md">h</Text>}
+              styles={{ input: { fontSize: '1.5rem', fontWeight: 600 } }}
+            />
+          </Card>
         </Stack>
       </Container>
 
-      {/* BOTÓN FLOTANTE REFACTORIZADO (Libre de errores TS) */}
+      {/* BOTÓN FLOTANTE TIPO WHATSAPP */}
       <Transition mounted={canSubmit} transition="slide-up" duration={200} timingFunction="ease">
         {(transitionStyles) => (
           <Box

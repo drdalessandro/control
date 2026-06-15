@@ -78,7 +78,7 @@ export function ScientificEvidence(): JSX.Element {
                     <Image 
                       src={pillar.imgSrc} 
                       alt={`Gráfico de ${pillar.title}`} 
-                      fallbackSrc="https://placehold.co/600x400/teal/white?text=Gráfico+Científico"
+                      fallbackSrc="src/img/landingpage/le8.png"
                     />
                   </Card>
                 </Grid.Col>

@@ -78,7 +78,7 @@ export function ScientificEvidence(): JSX.Element {
                     <Image 
                       src={pillar.imgSrc} 
                       alt={`Gráfico de ${pillar.title}`} 
-                      fallbackSrc="src/img/landingPage/evidencia_le8.png"
+                      fallbackSrc="src/img/landingPage/Gemini_Generated_Image_tuvfvctuvfvctuvf.png"
                     />
                   </Card>
                 </Grid.Col>

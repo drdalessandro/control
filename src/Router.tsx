@@ -36,7 +36,10 @@ import { ScientificEvidence } from './pages/landing/ScientificEvidence';
 export function Router(): JSX.Element {
   return (
     <Routes>
+      {/* RUTAS PÚBLICAS Y DE NIVEL SUPERIOR */}
       <Route path="/" element={<HomePage />} />
+      <Route path="/evidencia-cientifica" element={<ScientificEvidence />} />
+      
       <Route path="Communication" element={<MessagesPage />}>
         <Route path=":messageId" element={<MessagesPage />} />
       </Route>
@@ -44,6 +47,8 @@ export function Router(): JSX.Element {
       <Route path="screening-questionnaire" element={<ScreeningQuestionnairePage />} />
       <Route path="cuestionario-sdoh" element={<SdohQuestionnairePage />} />
       <Route path="patient-intake-questionnaire" element={<PatientIntakeQuestionnairePage />} />
+      
+      {/* RUTAS PRIVADAS (HEALTH RECORD) */}
       <Route path="health-record" element={<HealthRecord />}>
         <Route index element={<Navigate replace to="/health-record/lab-results" />} />
         <Route path="lab-results" element={<LabResults />} />
@@ -56,8 +61,8 @@ export function Router(): JSX.Element {
         <Route path="vaccines/:vaccineId" element={<Vaccine />} />
         <Route path="vitals" element={<Vitals />} />
         <Route path="vitals/:measurementId" element={<Measurement />} />
-        <Route path="/evidencia-cientifica" element={<ScientificEvidence />} />
       </Route>
+
       <Route path="laboratorio" element={<LaboratorioLayout />}>
         <Route index element={<Laboratorio />} />
         <Route path=":measurementId" element={<Measurement />} />

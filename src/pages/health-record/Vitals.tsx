@@ -85,7 +85,8 @@ export function Vitals(): JSX.Element {
   };
 
   return (
-    <Box bg="gray.0" minH="100vh" pb={100} pt={20}>
+    {/* CORRECCIÓN APLICADA AQUÍ: minH -> mih */}
+    <Box bg="gray.0" mih="100vh" pb={100} pt={20}>
       <Container size="sm">
         
         {/* Cabecera Simple y Conversacional */}

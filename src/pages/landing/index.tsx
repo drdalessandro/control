@@ -46,18 +46,18 @@ export function LandingPage(): JSX.Element {
             <Grid align="center" gutter={60}>
               <Grid.Col span={{ base: 12, md: 6 }}>
                 <Title order={1} size="3.5rem" fw={900} lh={1.1} mb="md" className={classes.title}>
-                  Tu corazón, tu futuro. <br />
+                  Tu Bienestar, en tus manos. <br />
                   <Text component="span" className={classes.highlight} inherit>
-                    100 días para transformarlo.
+                    100 días para mejorar!
                   </Text>
                 </Title>
                 {/* CORRECCIÓN 1: maxW -> maw */}
                 <Text size="xl" c="dimmed" mb="xl" maw={500}>
-                  Datos en tiempo real, con el respaldo de una Red de Cardiólogos expertos.
+                  Una Red de Cardiólogos expertos, te acompañaremos durante 100 días, en un proceso de aprendizaje, optimización y desafíos para optimizar tu salud!
                 </Text>
                 <Group>
                   <Button radius="xl" size="lg" color="teal" onClick={() => navigate('/register')}>
-                    Iniciar mi Plan 100 Días
+                    Iniciar mi Plan
                   </Button>
                   <Button variant="outline" radius="xl" size="lg" color="teal" onClick={() => navigate('/signin')}>
                     Ya soy paciente

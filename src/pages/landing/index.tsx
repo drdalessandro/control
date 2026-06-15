@@ -46,14 +46,14 @@ export function LandingPage(): JSX.Element {
             <Grid align="center" gutter={60}>
               <Grid.Col span={{ base: 12, md: 6 }}>
                 <Title order={1} size="3.5rem" fw={900} lh={1.1} mb="md" className={classes.title}>
-                  Tu Bienestar, en tu mano. <br />
+                  Tu Bienestar, en la mano. <br />
                   <Text component="span" className={classes.highlight} inherit>
-                    100 días para optimizar!
+                    100 días de Beneficios!
                   </Text>
                 </Title>
                 {/* CORRECCIÓN 1: maxW -> maw */}
                 <Text size="xl" c="dimmed" mb="xl" maw={500}>
-                  Una Red de Cardiólogos expertos, te acompañaremos en un proceso de aprendizaje, desafíos y gratificaciones para mejorar tu salud!
+                  Una Red de Cardiólogos expertos, te acompañaremos en un proceso de aprendizaje y transformación para mejorar tu salud!
                 </Text>
                 <Group>
                   <Button radius="xl" size="lg" color="teal" onClick={() => navigate('/register')}>

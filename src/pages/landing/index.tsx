@@ -5,7 +5,7 @@ import { IconHeartbeat, IconTrophy, IconDeviceAnalytics, IconStethoscope } from 
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
 import { Footer } from '../../components/Footer';
-import LabImage from '../../img/landingPage/laboratory.jpg';
+import LabImage from '../../img/landingPage/evidencia_cientifica.png';
 import WorkingEnvironmentImage from '../../img/landingPage/control_landing.png';
 import { Header } from './Header';
 import classes from './index.module.css';

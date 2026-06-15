@@ -150,7 +150,9 @@ export function Header(): JSX.Element {
               </HoverCard>
 
               <a href="#" className={classes.link}>Nuestros Especialistas</a>
-              <a href="#" className={classes.link}>Evidencia Científica</a>
+              <a href="#" className={classes.link} onClick={(e) => { e.preventDefault(); navigate('/evidencia-cientifica'); }}>
+  Evidencia Científica
+</a>
             </Group>
 
             <Group className={classes.hiddenMobile}>

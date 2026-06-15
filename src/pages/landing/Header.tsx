@@ -32,7 +32,7 @@ import {
   IconDeviceMobileVibration,
 } from '@tabler/icons-react';
 import type { JSX } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { Logo } from '../../components/Logo';
 import classes from './Header.module.css';
 

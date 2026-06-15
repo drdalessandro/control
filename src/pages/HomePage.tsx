@@ -21,7 +21,7 @@ import {
 import { formatHumanName } from '@medplum/core';
 import type { Patient, Practitioner } from '@medplum/fhirtypes';
 import { useMedplumProfile } from '@medplum/react';
-import { IconChecklist, IconGift, IconSquareCheck } from '@tabler/icons-react';
+import { IconChecklist, IconClipboardHeart, IconGift, IconSquareCheck } from '@tabler/icons-react';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
 import DoctorImage from '../img/homePage/doctor.svg';
@@ -32,14 +32,6 @@ import PillImage from '../img/homePage/pill.svg';
 import classes from './HomePage.module.css';
 
 const carouselItems = [
-  {
-    img: <IconChecklist />,
-    title: 'Cuestionario de salud social (SDOH)',
-    description:
-      'Unas pocas preguntas sobre tu situación social y económica. Ayudan a tu equipo de salud a acompañarte mejor.',
-    url: '/cuestionario-sdoh',
-    label: 'Completar cuestionario',
-  },
   {
     img: <IconChecklist />,
     title: 'Bienvenido/a a Foo Medical',
@@ -146,6 +138,38 @@ export function HomePage(): JSX.Element {
             Enviar mensaje
           </Button>
         </Group>
+      </Box>
+      <Box p="lg">
+        <Container>
+          <Card
+            shadow="md"
+            radius="md"
+            withBorder
+            p="xl"
+            style={{ borderColor: theme.colors[theme.primaryColor][6], borderWidth: 2 }}
+          >
+            <Group justify="space-between" gap="lg">
+              <Group wrap="nowrap" gap="md">
+                <IconClipboardHeart size={48} color={theme.colors[theme.primaryColor][6]} stroke={1.5} />
+                <div>
+                  <Badge color={theme.primaryColor} mb={4}>
+                    Recomendado
+                  </Badge>
+                  <Text size="lg" fw={600}>
+                    Cuestionario de salud social (SDOH)
+                  </Text>
+                  <Text size="sm" c="dimmed">
+                    Unas pocas preguntas sobre tu situación social y económica. Ayudan a tu equipo de salud a
+                    acompañarte mejor.
+                  </Text>
+                </div>
+              </Group>
+              <Button size="md" onClick={() => navigate('/cuestionario-sdoh')?.catch(console.error)}>
+                Completar cuestionario
+              </Button>
+            </Group>
+          </Card>
+        </Container>
       </Box>
       <Box p="lg">
         <Container>

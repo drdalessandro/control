@@ -31,6 +31,7 @@ import { QuestionnairePage } from './pages/QuestionnairePage';
 import { ScreeningQuestionnairePage } from './pages/ScreeningQuestionnairePage';
 import { SdohQuestionnairePage } from './pages/SdohQuestionnairePage';
 import { SignOutPage } from './pages/SignOutPage';
+import { ScientificEvidence } from './pages/landing/ScientificEvidence';
 
 export function Router(): JSX.Element {
   return (
@@ -55,6 +56,7 @@ export function Router(): JSX.Element {
         <Route path="vaccines/:vaccineId" element={<Vaccine />} />
         <Route path="vitals" element={<Vitals />} />
         <Route path="vitals/:measurementId" element={<Measurement />} />
+        <Route path="/evidencia-cientifica" element={<ScientificEvidence />} />
       </Route>
       <Route path="laboratorio" element={<LaboratorioLayout />}>
         <Route index element={<Laboratorio />} />

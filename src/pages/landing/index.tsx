@@ -48,7 +48,7 @@ export function LandingPage(): JSX.Element {
                 <Title order={1} size="3.5rem" fw={900} lh={1.1} mb="md" className={classes.title}>
                   Tu Bienestar, en la mano. <br />
                   <Text component="span" className={classes.highlight} inherit>
-                    100 días de Beneficios!
+                    Plan 100 días!
                   </Text>
                 </Title>
                 {/* CORRECCIÓN 1: maxW -> maw */}

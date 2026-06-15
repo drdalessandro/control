@@ -13,6 +13,7 @@ import { RegisterPage } from './pages/RegisterPage';
 import { SignInPage } from './pages/SignInPage';
 import { LandingPage } from './pages/landing';
 import { ScientificEvidence } from './pages/landing/ScientificEvidence';
+import { BottomNav } from './components/BottomNav';
 
 export function App(): JSX.Element | null {
   const medplum = useMedplum();
@@ -33,17 +34,18 @@ export function App(): JSX.Element | null {
     );
   }
 
-  return (
-    <AppShell header={{ height: 80 }}>
-      <Header />
-      <AppShell.Main>
-        <ErrorBoundary>
-          <Suspense fallback={<Loading />}>
-            <Router />
-          </Suspense>
-        </ErrorBoundary>
-      </AppShell.Main>
-      <Footer />
-    </AppShell>
-  );
+return (
+  <AppShell header={{ height: 80 }}>
+    <Header />
+    <AppShell.Main pb={{ base: 70, sm: 0 }}>
+      <ErrorBoundary>
+        <Suspense fallback={<Loading />}>
+          <Router />
+        </Suspense>
+      </ErrorBoundary>
+    </AppShell.Main>
+    <Footer />
+    <BottomNav />
+  </AppShell>
+);
 }

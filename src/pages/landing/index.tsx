@@ -53,7 +53,7 @@ export function LandingPage(): JSX.Element {
                 </Title>
                 {/* CORRECCIÓN 1: maxW -> maw */}
                 <Text size="xl" c="dimmed" mb="xl" maw={500}>
-                  EPA Bienestar combina datos en tiempo real, inteligencia clínica y el respaldo de expertos globales para alejarte del riesgo cardiovascular.
+                  Datos en tiempo real, con el respaldo de una Red de Cardiólogos expertos.
                 </Text>
                 <Group>
                   <Button radius="xl" size="lg" color="teal" onClick={() => navigate('/register')}>

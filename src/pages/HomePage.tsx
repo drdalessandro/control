@@ -1,286 +1,185 @@
 // SPDX-FileCopyrightText: Copyright Orangebot, Inc. and Medplum contributors
 // SPDX-License-Identifier: Apache-2.0
 import {
-  Anchor,
-  Avatar,
   Badge,
   Box,
   Button,
   Card,
   Container,
-  Flex,
   Grid,
   Group,
-  Image,
-  Overlay,
+  RingProgress,
   Stack,
   Text,
   Title,
+  ThemeIcon,
   useMantineTheme,
+  ActionIcon,
 } from '@mantine/core';
 import { formatHumanName } from '@medplum/core';
 import type { Patient, Practitioner } from '@medplum/fhirtypes';
 import { useMedplumProfile } from '@medplum/react';
-import { IconChecklist, IconClipboardHeart, IconGift, IconSquareCheck } from '@tabler/icons-react';
+import { 
+  IconHeartbeat, 
+  IconScale, 
+  IconMoonStars, 
+  IconTrophy, 
+  IconStethoscope, 
+  IconChevronRight,
+  IconActivity
+} from '@tabler/icons-react';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
-import DoctorImage from '../img/homePage/doctor.svg';
-import HealthRecordImage from '../img/homePage/health-record.svg';
-import HealthVisitImage from '../img/homePage/health-visit.jpg';
-import PharmacyImage from '../img/homePage/pharmacy.svg';
-import PillImage from '../img/homePage/pill.svg';
 import classes from './HomePage.module.css';
 
-const carouselItems = [
-  {
-    img: <IconChecklist />,
-    title: 'Bienvenido/a a Foo Medical',
-    description:
-      'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
-    url: '/screening-questionnaire',
-    label: 'Evaluación AHC HRSN',
-  },
-  {
-    img: <IconChecklist />,
-    title: 'Cuestionario de admisión del paciente',
-    description:
-      'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
-    url: '/patient-intake-questionnaire',
-    label: 'Comenzar formulario',
-  },
-  {
-    img: <IconChecklist />,
-    title: 'Elegir un médico',
-    description:
-      'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
-    url: '/account/provider/choose-a-primary-care-povider',
-    label: 'Elegir un médico de cabecera',
-  },
-  {
-    img: <IconChecklist />,
-    title: 'Contacto de emergencia',
-    description:
-      'Lorem ipsum at porta donec ultricies ut, arcu morbi amet arcu ornare, curabitur pharetra magna tempus',
-    url: '/account',
-    label: 'Agregar contacto de emergencia',
-  },
+const quickActions = [
+  { icon: IconHeartbeat, color: 'red', title: 'Presión Arterial', description: 'Registrá tu medición de hoy', url: '/health-record/vitals' },
+  { icon: IconScale, color: 'blue', title: 'Peso y Cintura', description: 'Actualizá tu índice metabólico', url: '/health-record/vitals' },
+  { icon: IconMoonStars, color: 'indigo', title: 'Horas de Sueño', description: 'Vital para la recuperación', url: '/health-record/vitals' },
 ];
 
-const linkPages = [
-  {
-    img: HealthRecordImage,
-    title: 'Registro de Salud',
-    description: '',
-    href: '/health-record',
-  },
-  {
-    img: PillImage,
-    title: 'Solicitar renovación de receta',
-    description: '',
-    href: '/health-record/medications',
-  },
-  {
-    img: PharmacyImage,
-    title: 'Farmacia preferida',
-    description: 'Walgreens D2866 1363 Divisadero St  DIVISADERO',
-    href: '#',
-  },
-];
-
-const recommendations = [
-  {
-    title: 'Obtener recomendaciones de salud para viajar',
-    description: 'Averiguá qué vacunas y medicamentos necesitás para tu viaje.',
-  },
-  {
-    title: 'Obtener reembolso FSA/HSA',
-    description: 'Solicitá una receta para artículos de venta libre.',
-  },
-  {
-    title: 'Solicitar registro de salud',
-    description: 'Hacé que envíen o reciban registros desde Foo Medical.',
-  },
+const milestones = [
+  { title: 'Día 7 completado', description: '¡Tu primera semana perfecta! Hábitos en formación.' },
+  { title: 'Score ASCVD Base', description: 'Laboratorios cargados. Conocé tu riesgo a 10 años.' },
+  { title: 'Revisión Médica', description: 'Tus datos fueron visados por el equipo cardiológico.' },
 ];
 
 export function HomePage(): JSX.Element {
   const navigate = useNavigate();
   const theme = useMantineTheme();
   const profile = useMedplumProfile() as Patient | Practitioner;
-  const profileName = profile.name ? formatHumanName(profile.name[0]) : '';
+  const profileName = profile.name ? formatHumanName(profile.name[0]).split(' ')[0] : 'Paciente';
+
+  const dayOfPlan = 14; 
+  const totalDays = 100;
+  const progressPercent = (dayOfPlan / totalDays) * 100;
 
   return (
-    <Box bg="gray.0">
-      <Box className={classes.announcements}>
-        <span>
-          Los anuncios van acá. <Anchor href="#">Incluí enlaces si hace falta.</Anchor>
-        </span>
-      </Box>
-      <div className={classes.hero}>
-        <Overlay
-          gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.4) 40%)"
-          opacity={1}
-          zIndex={0}
-        />
-        <Container className={classes.heroContainer}>
-          <Title className={classes.heroTitle}>
-            Hola <span className="text-teal-600">{profileName}</span>,<br /> estamos para ayudarte
-          </Title>
-          <Button size="xl" radius="xl" className={classes.heroButton}>
-            Atención
-          </Button>
-        </Container>
-      </div>
-      <Box className={classes.callToAction}>
-        <Group justify="center">
-          <IconGift />
-          <p>Poné las llamadas a la acción acá</p>
-          <Button variant="white" onClick={() => navigate('/messages')?.catch(console.error)}>
-            Enviar mensaje
-          </Button>
-        </Group>
-      </Box>
-      <Box p="lg">
-        <Container>
-          <Card
-            shadow="md"
-            radius="md"
-            withBorder
-            p="xl"
-            style={{ borderColor: theme.colors[theme.primaryColor][6], borderWidth: 2 }}
-          >
-            <Group justify="space-between" gap="lg">
-              <Group wrap="nowrap" gap="md">
-                <IconClipboardHeart size={48} color={theme.colors[theme.primaryColor][6]} stroke={1.5} />
-                <div>
-                  <Badge color={theme.primaryColor} mb={4}>
-                    Recomendado
-                  </Badge>
-                  <Text size="lg" fw={600}>
-                    Cuestionario de salud social (SDOH)
-                  </Text>
-                  <Text size="sm" c="dimmed">
-                    Unas pocas preguntas sobre tu situación social y económica. Ayudan a tu equipo de salud a
-                    acompañarte mejor.
-                  </Text>
-                </div>
+    <Box bg="gray.0" pb={80}>
+      <Box className={classes.hero}>
+        <Container size="xl" className={classes.heroContainer}>
+          <Grid align="center" w="100%">
+            <Grid.Col span={{ base: 12, md: 8 }}>
+              <Badge color="teal.2" c="teal.9" size="lg" radius="xl" mb="sm" fw={600}>
+                Plan Bienestar • Día {dayOfPlan}
+              </Badge>
+              <Title className={classes.heroTitle}>
+                ¡Buen día, {profileName}! <br />
+                <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.75em' }}>
+                  Es momento de cuidar tu corazón.
+                </span>
+              </Title>
+            </Grid.Col>
+            
+            <Grid.Col span={{ base: 12, md: 4 }}>
+              <Group justify="center">
+                <RingProgress
+                  size={140}
+                  thickness={14}
+                  roundCaps
+                  sections={[{ value: progressPercent, color: 'white' }]}
+                  label={
+                    <Text c="white" fw={700} ta="center" size="xl">
+                      {dayOfPlan}/100
+                    </Text>
+                  }
+                />
               </Group>
-              <Button size="md" onClick={() => navigate('/cuestionario-sdoh')?.catch(console.error)}>
-                Completar cuestionario
-              </Button>
-            </Group>
-          </Card>
-        </Container>
-      </Box>
-      <Box p="lg">
-        <Container>
-          <Grid>
-            {carouselItems.map((item, index) => (
-              <Grid.Col key={`card-${index}`} span={3} pb={40}>
-                <Card shadow="md" radius="md" className={classes.card} p="xl">
-                  <IconSquareCheck />
-                  <Text size="lg" fw={500} mt="md">
-                    {item.title}
-                  </Text>
-                  <Text size="sm" color="dimmed" my="sm">
-                    {item.description}
-                  </Text>
-                  <Anchor href={item.url}>{item.label}</Anchor>
-                </Card>
-              </Grid.Col>
-            ))}
+            </Grid.Col>
           </Grid>
         </Container>
       </Box>
-      <Box p="lg">
-        <Container>
-          <Card shadow="md" radius="md" className={classes.card} p="xl">
-            <IconSquareCheck />
-            <Text size="lg" fw={500} mt="md">
-              Mejor descanso, mejor salud
-            </Text>
-            <Text size="sm" color="dimmed" my="sm">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste
-              dolor cupiditate blanditiis ratione. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores
-              impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.
-            </Text>
-            <Group>
-              <Button>Invitar amigos</Button>
-            </Group>
-          </Card>
-        </Container>
-      </Box>
-      <Box p="lg">
-        <Container>
-          <Card shadow="md" radius="md" className={classes.card} p="xl">
-            <Flex>
-              <Image src={HealthVisitImage} m="-40px 30px -40px -40px" w="40%" />
+
+      <Container size="xl" mt="-40px" style={{ position: 'relative', zIndex: 10 }}>
+        <Card shadow="xl" radius="lg" p="xl" mb="xl" className={classes.alertCard}>
+          <Group justify="space-between" gap="lg" wrap="nowrap">
+            <Group wrap="nowrap" gap="md">
+              <ThemeIcon size={54} radius="xl" color="teal" variant="light">
+                <IconActivity size={32} />
+              </ThemeIcon>
               <div>
-                <Badge color={theme.primaryColor} size="xl">
-                  Ya disponible
-                </Badge>
-                <Text size="lg" fw={500} mt="md">
-                  Título
+                <Text size="lg" fw={700} c="gray.9">
+                  Tu SCORE ASCVD está listo
                 </Text>
-                <Text size="sm" color="dimmed" my="sm">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque,
-                  iste dolor cupiditate blanditiis ratione. Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.
+                <Text size="sm" c="dimmed" mt={4}>
+                  Procesamos tus laboratorios. Descubrí tu edad vascular y el impacto de completarlo.
                 </Text>
               </div>
-            </Flex>
-          </Card>
-        </Container>
-      </Box>
-      <Box p="lg">
-        <Container>
-          <Grid columns={3} pb="xl">
-            {linkPages.map((item, index) => (
-              <Grid.Col key={`card-${index}`} span={1}>
-                <Card shadow="md" radius="md" className={classes.card} p="xl">
-                  <Image src={item.img} w={80} />
-                  <Text size="lg" fw={500} mt="md">
-                    {item.title}
-                  </Text>
-                </Card>
-              </Grid.Col>
-            ))}
-          </Grid>
-        </Container>
-      </Box>
-      <Box p="lg">
-        <Container>
-          <Grid columns={2} pb="xl">
-            <Grid.Col span={1}>
-              <Card shadow="md" radius="md" className={classes.card} p="xl">
+            </Group>
+            <Button radius="xl" color="teal" onClick={() => navigate('/health-record/lab-results')}>
+              Ver mi Riesgo
+            </Button>
+          </Group>
+        </Card>
+
+        <Title order={3} mb="md" fw={700} c="gray.8">Tus Métricas de Hoy</Title>
+        <Grid mb="xl">
+          {quickActions.map((item, index) => (
+            <Grid.Col key={index} span={{ base: 12, sm: 4 }}>
+              <Card shadow="sm" radius="lg" p="lg" className={classes.actionCard} onClick={() => navigate(item.url)}>
                 <Group wrap="nowrap">
-                  <Avatar src={DoctorImage} size="xl" />
-                  <div>
-                    <Text fw={500}>Médico de cabecera</Text>
-                    <Text size="sm" color="dimmed" my="sm">
-                      Tener un médico de confianza y constante puede mejorar tu salud.
-                    </Text>
-                    <Button onClick={() => navigate('/account/provider')?.catch(console.error)}>Elegir médico</Button>
-                  </div>
+                  <ThemeIcon size={48} radius="md" color={item.color} variant="light">
+                    <item.icon size={28} />
+                  </ThemeIcon>
+                  <Box style={{ flex: 1 }}>
+                    <Text fw={600} size="md">{item.title}</Text>
+                    <Text size="xs" c="dimmed">{item.description}</Text>
+                  </Box>
+                  <ActionIcon variant="subtle" color="gray">
+                    <IconChevronRight size={20} />
+                  </ActionIcon>
                 </Group>
               </Card>
             </Grid.Col>
-            <Grid.Col span={1}>
-              <Card shadow="md" radius="md" className={classes.card} p="xl">
-                <Stack>
-                  {recommendations.map((item, index) => (
-                    <div key={`recommendation-${index}`}>
-                      <Text fw={500}>{item.title}</Text>
-                      <Text size="sm" color="dimmed" my="sm">
-                        {item.description}
-                      </Text>
+          ))}
+        </Grid>
+
+        <Grid>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <Title order={3} mb="md" fw={700} c="gray.8">Segunda Opinión</Title>
+            <Card shadow="sm" radius="lg" p="xl" h="100%">
+              <Group wrap="nowrap" align="flex-start">
+                <ThemeIcon size={60} radius="xl" color="teal" variant="filled">
+                  <IconStethoscope size={34} />
+                </ThemeIcon>
+                <div>
+                  <Badge color="teal" variant="light" mb={8}>Dr. Alex Barbagelata</Badge>
+                  <Text fw={700} size="lg" mb={4}>Supervisión Cardiológica</Text>
+                  <Text size="sm" c="dimmed" mb="md" lh={1.5}>
+                    Tu progreso es monitoreado por nuestra red de especialistas. Solicitá una revisión integral de tus datos en cualquier momento.
+                  </Text>
+                  <Button variant="outline" color="teal" radius="xl" onClick={() => navigate('/messages')}>
+                    Contactar al Equipo
+                  </Button>
+                </div>
+              </Group>
+            </Card>
+          </Grid.Col>
+
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <Title order={3} mb="md" fw={700} c="gray.8">Tu Mapa de Ruta</Title>
+            <Card shadow="sm" radius="lg" p="xl" h="100%">
+              <Stack gap="md">
+                {milestones.map((item, index) => (
+                  <Group key={index} wrap="nowrap">
+                    <ThemeIcon size={40} radius="xl" color="yellow" variant="light">
+                      <IconTrophy size={20} />
+                    </ThemeIcon>
+                    <div>
+                      <Text fw={600} size="sm">{item.title}</Text>
+                      <Text size="xs" c="dimmed">{item.description}</Text>
                     </div>
-                  ))}
-                </Stack>
-              </Card>
-            </Grid.Col>
-          </Grid>
-        </Container>
-      </Box>
+                  </Group>
+                ))}
+                <Button variant="subtle" color="teal" mt="sm" onClick={() => navigate('/care-plan')}>
+                  Ver Plan Completo
+                </Button>
+              </Stack>
+            </Card>
+          </Grid.Col>
+        </Grid>
+
+      </Container>
     </Box>
   );
 }

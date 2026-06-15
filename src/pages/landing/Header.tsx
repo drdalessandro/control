@@ -35,6 +35,7 @@ import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
 import { Logo } from '../../components/Logo';
 import classes from './Header.module.css';
+import { useNavigate, Link } from 'react-router';
 
 const programFeatures = [
   {
@@ -192,12 +193,14 @@ export function Header(): JSX.Element {
           <Collapse in={linksOpened} px="md">
             {links}
           </Collapse>
-          
-          <a href="#" className={classes.link}>Nuestros Especialistas</a>
-          <a href="#" className={classes.link}>Evidencia Científica</a>
+          <Link to="/especialistas" className={classes.link}>
+  Nuestros Especialistas
+</Link>
+          <Link to="/evidencia-cientifica" className={classes.link}>
+  Evidencia Científica
+</Link>
 
           <Divider my="xl" />
-
           <Group justify="center" grow pb="xl">
             <Button variant="outline" color="teal" radius="xl" onClick={() => navigate('/signin')?.catch(console.error)}>
               Ingresar

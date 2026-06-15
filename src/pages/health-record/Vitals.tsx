@@ -14,7 +14,8 @@ import {
   Transition,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { createReference } from '@medplum/core'; // IMPORTANTE: Función oficial de Medplum
+import { createReference } from '@medplum/core';
+import type { Patient } from '@medplum/fhirtypes'; // <-- IMPORTANTE: Traemos el tipo oficial
 import { useMedplum, useMedplumProfile } from '@medplum/react';
 import { IconCheck, IconHeartbeat, IconMoonStars, IconScale, IconSend } from '@tabler/icons-react';
 import { useState } from 'react';
@@ -35,7 +36,6 @@ export function Vitals(): JSX.Element {
   const canSubmit = Boolean((systolic && diastolic) || weight || sleepHours);
 
   const handleSubmit = async () => {
-    // Verificamos identidad
     if (!profile || !profile.id) {
       notifications.show({
         title: 'Sesión no encontrada',
@@ -48,8 +48,8 @@ export function Vitals(): JSX.Element {
     setIsSubmitting(true);
     const effectiveDateTime = new Date().toISOString();
     
-    // CREAMOS LA REFERENCIA OFICIAL A PRUEBA DE ERRORES TS
-    const subjectRef = createReference(profile);
+    // MAGIA TS: Le aseguramos al compilador que el usuario actúa como Paciente
+    const subjectRef = createReference(profile as Patient);
     const promises = [];
 
     try {

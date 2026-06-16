@@ -1,0 +1,30 @@
+/* src/components/BottomNav.module.css */
+.bottomNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 64px;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--mantine-color-white);
+  border-top: 1px solid var(--mantine-color-gray-2);
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex: 1;
+  text-decoration: none;
+  color: var(--mantine-color-gray-6);
+}
+
+.active {
+  color: var(--mantine-color-teal-6);
+}

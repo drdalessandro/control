@@ -12,22 +12,21 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 import { App } from './App';
 
-  const medplum = new MedplumClient({
-  // To run FooMedical locally, you can set the baseURL in this constructor
-  // baseUrl: http://localhost:8103
+const medplum = new MedplumClient({
   onUnauthenticated: () => (window.location.href = '/'),
   baseUrl: 'https://api.medplum.com.ar/',
 });
 
 const theme = createTheme({
   primaryColor: 'teal',
-  primaryShade: 8,
+  primaryShade: 6,
+  defaultRadius: 'md',
   fontSizes: {
-    xs: '0.6875rem',
+    xs: '0.75rem',
     sm: '0.875rem',
-    md: '0.875rem',
-    lg: '1rem',
-    xl: '1.125rem',
+    md: '1rem',
+    lg: '1.125rem',
+    xl: '1.25rem',
   },
   components: {
     Container: {
@@ -35,6 +34,18 @@ const theme = createTheme({
         size: 1200,
       },
     },
+    Card: {
+      defaultProps: {
+        shadow: 'sm',
+        withBorder: false, 
+      },
+    },
+    TextInput: {
+      defaultProps: { variant: 'filled' }
+    },
+    NumberInput: {
+      defaultProps: { variant: 'filled' }
+    }
   },
 });
 

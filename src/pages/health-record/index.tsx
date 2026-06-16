@@ -6,20 +6,20 @@ import type { JSX } from 'react';
 import { Outlet } from 'react-router';
 import { Loading } from '../../components/Loading';
 import { SideMenu } from '../../components/SideMenu';
-import { measurementsMeta, vitalsMeasurementIds } from './Measurement.data';
+import { measurementsMeta } from './Measurement.data';
 
 const sideMenu = {
   title: 'Mi Salud',
   menu: [
-    { name: 'Resultados de Laboratorio', href: '/health-record/lab-results' },
-    { name: 'Medicamentos', href: '/health-record/medications' },
-    { name: 'Respuestas de Cuestionarios', href: '/health-record/questionnaire-responses' },
-    { name: 'Vacunas', href: '/health-record/vaccines' },
+    { name: 'Lab Results', href: '/health-record/lab-results' },
+    { name: 'Medications', href: '/health-record/medications' },
+    { name: 'Questionnaire Responses', href: '/health-record/questionnaire-responses' },
+    { name: 'Vaccines', href: '/health-record/vaccines' },
     {
-      name: 'Signos vitales',
+      name: 'Vitals',
       href: '/health-record/vitals',
-      subMenu: vitalsMeasurementIds.map((id) => ({
-        name: measurementsMeta[id].title,
+      subMenu: Object.values(measurementsMeta).map(({ title, id }) => ({
+        name: title,
         href: `/health-record/vitals/${id}`,
       })),
     },

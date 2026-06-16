@@ -59,10 +59,6 @@ export function HomePage(): JSX.Element {
 
   return (
     <Box bg="gray.0">
-      <Box className={classes.announcements}>
-        <span>Bienvenido/a a Favaloro Argentina · Tu Plan Bienestar 100 Días te espera.</span>
-      </Box>
-
       {/* HEADER MINIMALISTA CKM */}
       <Container size="lg" pt={40} pb={20}>
         <Group justify="space-between" align="flex-end">

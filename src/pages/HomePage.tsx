@@ -7,7 +7,6 @@ import {
   Card,
   Container,
   Group,
-  Overlay,
   SimpleGrid,
   Text,
   ThemeIcon,
@@ -64,7 +63,7 @@ export function HomePage(): JSX.Element {
         <span>Bienvenido/a a Favaloro Argentina · Tu Plan Bienestar 100 Días te espera.</span>
       </Box>
 
-      {/* NUEVO HEADER MINIMALISTA CKM */}
+      {/* HEADER MINIMALISTA CKM */}
       <Container size="lg" pt={40} pb={20}>
         <Group justify="space-between" align="flex-end">
           <Box>
@@ -76,7 +75,6 @@ export function HomePage(): JSX.Element {
             </Text>
           </Box>
           
-          {/* En lugar del botón del plan (que ya está abajo), ponemos un atajo rápido vital */}
           {!plan ? (
             <Button size="md" radius="xl" color="teal" onClick={handleStart} loading={starting}>
               Empezar mi Plan
@@ -106,14 +104,14 @@ export function HomePage(): JSX.Element {
         </Group>
       </Box>
 
-      {/* Tu corazón hoy — palancas personales (el diferencial) */}
+      {/* Tu corazón hoy — palancas personales */}
       <Box p="lg">
         <Container>
           <HeartToday />
         </Container>
       </Box>
 
-      {/* Plan 100 Días — progreso real (o invitación a empezar) */}
+      {/* Plan 100 Días — progreso real */}
       {!loading && (
         <Box p="lg" pt={0}>
           <Container>
@@ -189,5 +187,4 @@ export function HomePage(): JSX.Element {
       </Box>
     </Box>
   );
-}
 }

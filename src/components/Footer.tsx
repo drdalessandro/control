@@ -18,7 +18,7 @@ export function Footer(): JSX.Element {
             </SimpleGrid>
             <Divider />
             <Text c="dimmed" size="sm">
-              &copy; {new Date().getFullYear()} Foo Medical, Inc. Todos los derechos reservados.
+              &copy; {new Date().getFullYear()} Favaloro Argentina. Todos los derechos reservados.
             </Text>
           </Stack>
         </Container>

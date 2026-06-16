@@ -8,8 +8,8 @@ import { Loading } from '../../components/Loading';
 import { SideMenu } from '../../components/SideMenu';
 
 const sideMenu = {
-  title: 'Plan de Cuidado',
-  menu: [{ name: 'Tareas pendientes', href: '/care-plan/action-items' }],
+  title: 'Plan 100 Días',
+  menu: [{ name: 'Mis acciones', href: '/care-plan/action-items' }],
 };
 
 export function CarePlanPage(): JSX.Element {

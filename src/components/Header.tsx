@@ -12,11 +12,11 @@ import classes from './Header.module.css';
 import { Logo } from './Logo';
 
 const navigation = [
-  { name: 'Registro de Salud', href: '/health-record' },
+  { name: 'Plan 100 Días', href: '/care-plan' },
+  { name: 'Mi Salud', href: '/health-record' },
   { name: 'Laboratorio', href: '/laboratorio' },
-  { name: 'Mensajes', href: '/Communication' },
-  { name: 'Plan de Cuidado', href: '/care-plan' },
-  { name: 'Atención', href: '/get-care' },
+  { name: 'Mi Equipo', href: '/Communication' },
+  { name: 'Turnos', href: '/get-care' },
 ];
 
 export function Header(): JSX.Element {

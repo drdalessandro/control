@@ -10,26 +10,15 @@ export function SignInPage(): JSX.Element {
   const navigate = useNavigate();
 
   return (
-    <Flex
-      direction={{ base: 'column', md: 'row' }}
-      h="100vh"
-      bg="gray.0"
-    >
-      <Box
-        w={{ base: '100%', md: '50%' }}
-        h={{ base: '35vh', md: '100vh' }}
-        style={{
-          backgroundImage: 'url(https://app.medplum.com.ar/static/img/favaloro.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'relative',
-        }}
-      >
-        <Box 
-          h="100%" 
-          w="100%" 
-          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0, 128, 128, 0.6))' }} 
-        />
+    <SimpleGrid cols={2}>
+      <Box pt={100} pb={200}>
+        <SignInForm
+          projectId={MEDPLUM_PROJECT_ID}
+          googleClientId={MEDPLUM_GOOGLE_CLIENT_ID}
+          onSuccess={() => navigate('/')?.catch(console.error)}
+        >
+          <h2>Iniciar sesión en Favaloro Argentina</h2>
+        </SignInForm>
       </Box>
 
       <Center w={{ base: '100%', md: '50%' }} h={{ base: '65vh', md: '100vh' }}>

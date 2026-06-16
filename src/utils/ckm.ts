@@ -6,10 +6,16 @@
 // ckm-recalculate, que los persiste como extensiones del Patient.
 // Contrato (seguimiento/src/ckm/{constants,types,extensions}.ts).
 // ============================================================================
-import type { Patient } from '@medplum/fhirtypes';
+import type { Patient, RiskAssessment } from '@medplum/fhirtypes';
 
 const CKM_STAGE_URL = 'https://seguimiento.medplum.com.ar/fhir/StructureDefinition/CKMStage';
 const HGRAPH_DATA_URL = 'https://seguimiento.medplum.com.ar/fhir/StructureDefinition/hGraphData';
+
+// Contrato del RiskAssessment que emite el bot ckm-recalculate (uno por corrida).
+// probabilityDecimal lleva el riesgo en PORCENTAJE (p. ej. 8.5), igual que las
+// extensiones, para que el número y su tendencia sean consistentes.
+export const PREVENT_OUTCOME_SYSTEM = 'https://seguimiento.medplum.com.ar/fhir/CodeSystem/prevent-outcome';
+export const PREVENT_OUTCOME_ASCVD10Y = 'ascvd-10y';
 
 /** Riesgos PREVENT, en porcentaje (p. ej. 8.5 = 8,5 %). */
 export interface PreventScores {
@@ -47,6 +53,42 @@ export function getPreventScores(patient: Patient): PreventScores | undefined {
   } catch {
     return undefined;
   }
+}
+
+export interface RiskPoint {
+  readonly date: string;
+  readonly value: number;
+}
+
+/** Serie temporal (ascendente por fecha) del riesgo ASCVD 10 años desde los RiskAssessment. */
+export function getAscvdSeries(assessments: RiskAssessment[]): RiskPoint[] {
+  const points: RiskPoint[] = [];
+  for (const ra of assessments) {
+    const date = ra.occurrenceDateTime ?? ra.meta?.lastUpdated;
+    const prediction = ra.prediction?.find((p) => p.outcome?.coding?.some((c) => c.code === PREVENT_OUTCOME_ASCVD10Y));
+    const value = prediction?.probabilityDecimal;
+    if (date && typeof value === 'number') {
+      points.push({ date, value });
+    }
+  }
+  return points.sort((a, b) => a.date.localeCompare(b.date));
+}
+
+export interface AscvdDelta {
+  readonly current: number;
+  readonly previous?: number;
+  readonly delta?: number;
+}
+
+/** Valor actual y variación vs. el control anterior (positivo = empeoró, negativo = mejoró). */
+export function getAscvdDelta(series: RiskPoint[]): AscvdDelta | undefined {
+  if (series.length === 0) {
+    return undefined;
+  }
+  const current = series[series.length - 1].value;
+  const previous = series.length >= 2 ? series[series.length - 2].value : undefined;
+  const delta = previous !== undefined ? Math.round((current - previous) * 10) / 10 : undefined;
+  return { current, previous, delta };
 }
 
 /** Etiqueta del estadío CKM en lenguaje paciente (no alarmista). */

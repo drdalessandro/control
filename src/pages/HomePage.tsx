@@ -110,7 +110,7 @@ export function HomePage(): JSX.Element {
         </Group>
       </Box>
 
-      {/* Tu corazón hoy — palancas personales (el diferencial) */}
+      {/* Tu corazón hoy — palancas + estadío CKM + riesgo PREVENT (el diferencial) */}
       <Box p="lg">
         <Container>
           <HeartToday />

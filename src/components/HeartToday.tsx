@@ -11,7 +11,15 @@ import { IconCircleCheck, IconHeart, IconTargetArrow } from '@tabler/icons-react
 import { useEffect, useState } from 'react';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
-import { CKM_STAGE_LABELS, getCKMStage, getPreventScores, type PreventScores } from '../utils/ckm';
+import {
+  type AscvdDelta,
+  CKM_STAGE_LABELS,
+  getAscvdDelta,
+  getAscvdSeries,
+  getCKMStage,
+  getPreventScores,
+  type PreventScores,
+} from '../utils/ckm';
 import { computeHeartLevers, type HeartLevers } from '../utils/heartLevers';
 
 const MAX_TO_IMPROVE = 3;
@@ -23,6 +31,7 @@ export function HeartToday(): JSX.Element | null {
   const [levers, setLevers] = useState<HeartLevers>();
   const [stage, setStage] = useState<number>();
   const [prevent, setPrevent] = useState<PreventScores>();
+  const [ascvdDelta, setAscvdDelta] = useState<AscvdDelta>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,14 +40,17 @@ export function HeartToday(): JSX.Element | null {
       medplum.searchResources('Observation', `patient=${getReferenceString(patient)}&_count=100&_sort=-date`),
       // Leemos el Patient fresco: las extensiones CKM/PREVENT las escribe el bot.
       patient.id ? medplum.readResource('Patient', patient.id) : Promise.resolve(patient),
+      // Historial de riesgo para la tendencia (uno por corrida del bot).
+      medplum.searchResources('RiskAssessment', `subject=${getReferenceString(patient)}&_sort=-date&_count=24`),
     ])
-      .then(([obs, freshPatient]) => {
+      .then(([obs, freshPatient, assessments]) => {
         if (!active) {
           return;
         }
         setLevers(computeHeartLevers(obs));
         setStage(getCKMStage(freshPatient));
         setPrevent(getPreventScores(freshPatient));
+        setAscvdDelta(getAscvdDelta(getAscvdSeries(assessments)));
       })
       .catch(console.error)
       .finally(() => active && setLoading(false));
@@ -78,6 +90,11 @@ export function HeartToday(): JSX.Element | null {
   const total = levers.statuses.length;
   const onTargetCount = levers.onTarget.length;
   const toImprove = levers.toImprove.slice(0, MAX_TO_IMPROVE);
+
+  // El número se toma del historial (RiskAssessment) si existe, para que sea
+  // consistente con su tendencia; si no, de la extensión hGraph del Patient.
+  const ascvd = ascvdDelta?.current ?? prevent?.ascvd10y;
+  const delta = ascvdDelta?.delta;
 
   return (
     <Card shadow="md" radius="md" withBorder p="xl">
@@ -128,7 +145,7 @@ export function HeartToday(): JSX.Element | null {
       <Divider my="lg" />
 
       {/* Riesgo PREVENT / estadío CKM: se LEE de Seguimiento (no se recalcula). */}
-      {stage !== undefined || prevent?.ascvd10y !== undefined ? (
+      {stage !== undefined || ascvd !== undefined ? (
         <Group justify="space-between" align="flex-start" wrap="wrap" gap="xl">
           {stage !== undefined && (
             <div>
@@ -143,16 +160,30 @@ export function HeartToday(): JSX.Element | null {
               </Text>
             </div>
           )}
-          {prevent?.ascvd10y !== undefined && (
+          {ascvd !== undefined && (
             <div>
               <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
                 Tu riesgo cardiovascular a 10 años
               </Text>
-              <Text fw={800} fz="2rem" c="teal" lh={1.1} mt={4}>
-                {prevent.ascvd10y.toFixed(1)}%
-              </Text>
-              <Text size="xs" c="dimmed" maw={320}>
-                Estimación PREVENT (American Heart Association). Bajarlo está en tus manos, junto a tu equipo.
+              <Group gap="sm" align="baseline" mt={4}>
+                <Text fw={800} fz="2rem" c="teal" lh={1.1}>
+                  {ascvd.toFixed(1)}%
+                </Text>
+                {delta !== undefined && delta !== 0 && (
+                  <Badge color={delta < 0 ? 'teal' : 'orange'} variant="light">
+                    {delta < 0 ? '↓' : '↑'} {Math.abs(delta).toFixed(1)} pts vs tu control anterior
+                  </Badge>
+                )}
+                {delta === 0 && (
+                  <Badge color="gray" variant="light">
+                    sin cambios
+                  </Badge>
+                )}
+              </Group>
+              <Text size="xs" c="dimmed" maw={340}>
+                {delta !== undefined && delta < 0
+                  ? '¡Vas bien! Tu riesgo bajó desde tu control anterior. Seguí así.'
+                  : 'Estimación PREVENT (American Heart Association). Bajarlo está en tus manos, junto a tu equipo.'}
               </Text>
             </div>
           )}

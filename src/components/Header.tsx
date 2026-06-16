@@ -14,7 +14,7 @@ import { Logo } from './Logo';
 const navigation = [
   { name: 'Plan 100 Días', href: '/care-plan' },
   { name: 'Mi Salud', href: '/health-record' },
-  { name: 'Laboratorio', href: '/laboratorio' },
+  { name: 'Laboratorio', href: '/laboratory' },
   { name: 'Mi Equipo', href: '/Communication' },
   { name: 'Turnos', href: '/get-care' },
 ];

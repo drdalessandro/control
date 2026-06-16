@@ -150,7 +150,7 @@ export function Header(): JSX.Element {
               </HoverCard>
 
               <a href="#" className={classes.link}>Nuestros Especialistas</a>
-              <Link to="/evidencia-cientifica" className={classes.link}>Evidencia Científica</Link>
+              <Link to="/scientific-evidence" className={classes.link}>Evidencia Científica</Link>
             </Group>
 
             <Group className={classes.hiddenMobile}>
@@ -190,10 +190,10 @@ export function Header(): JSX.Element {
           <Collapse in={linksOpened} px="md">
             {links}
           </Collapse>
-          <Link to="/especialistas" className={classes.link}>
+          <Link to="/specialists" className={classes.link}>
   Nuestros Especialistas
 </Link>
-          <Link to="/evidencia-cientifica" className={classes.link}>
+          <Link to="/scientific-evidence" className={classes.link}>
   Evidencia Científica
 </Link>
 

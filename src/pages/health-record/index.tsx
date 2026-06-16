@@ -18,7 +18,7 @@ const sideMenu = {
     {
       name: 'Signos vitales',
       href: '/health-record/vitals',
-      // Solo signos vitales: los estudios de laboratorio viven en /laboratorio.
+      // Solo signos vitales: los estudios de laboratorio viven en /laboratory.
       subMenu: vitalsMeasurementIds.map((id) => ({
         name: measurementsMeta[id].title,
         href: `/health-record/vitals/${id}`,

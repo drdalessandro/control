@@ -11,6 +11,7 @@ import { IconCircleCheck, IconHeart, IconTargetArrow } from '@tabler/icons-react
 import { useEffect, useState } from 'react';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
+import { CKM_STAGE_LABELS, getCKMStage, getPreventScores, type PreventScores } from '../utils/ckm';
 import { computeHeartLevers, type HeartLevers } from '../utils/heartLevers';
 
 const MAX_TO_IMPROVE = 3;
@@ -20,13 +21,25 @@ export function HeartToday(): JSX.Element | null {
   const navigate = useNavigate();
   const patient = medplum.getProfile() as Patient;
   const [levers, setLevers] = useState<HeartLevers>();
+  const [stage, setStage] = useState<number>();
+  const [prevent, setPrevent] = useState<PreventScores>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let active = true;
-    medplum
-      .searchResources('Observation', `patient=${getReferenceString(patient)}&_count=100&_sort=-date`)
-      .then((obs) => active && setLevers(computeHeartLevers(obs)))
+    Promise.all([
+      medplum.searchResources('Observation', `patient=${getReferenceString(patient)}&_count=100&_sort=-date`),
+      // Leemos el Patient fresco: las extensiones CKM/PREVENT las escribe el bot.
+      patient.id ? medplum.readResource('Patient', patient.id) : Promise.resolve(patient),
+    ])
+      .then(([obs, freshPatient]) => {
+        if (!active) {
+          return;
+        }
+        setLevers(computeHeartLevers(obs));
+        setStage(getCKMStage(freshPatient));
+        setPrevent(getPreventScores(freshPatient));
+      })
       .catch(console.error)
       .finally(() => active && setLoading(false));
     return () => {
@@ -114,12 +127,42 @@ export function HeartToday(): JSX.Element | null {
 
       <Divider my="lg" />
 
-      {/* Riesgo PREVENT / estadío CKM: se LEE de Seguimiento (no se recalcula).
-          Pendiente de enchufar al contrato (URL de extensión + RiskAssessment). */}
-      <Text size="sm" c="dimmed">
-        Tu riesgo cardiovascular (PREVENT) y tu estadío CKM los calcula tu equipo de Favaloro a partir de tus datos, y
-        los vas a ver acá.
-      </Text>
+      {/* Riesgo PREVENT / estadío CKM: se LEE de Seguimiento (no se recalcula). */}
+      {stage !== undefined || prevent?.ascvd10y !== undefined ? (
+        <Group justify="space-between" align="flex-start" wrap="wrap" gap="xl">
+          {stage !== undefined && (
+            <div>
+              <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
+                Tu estadío CKM
+              </Text>
+              <Badge size="lg" color={CKM_STAGE_LABELS[stage].color} variant="light" mt={4}>
+                Estadío {stage}
+              </Badge>
+              <Text size="sm" mt={6} maw={320}>
+                {CKM_STAGE_LABELS[stage].title}
+              </Text>
+            </div>
+          )}
+          {prevent?.ascvd10y !== undefined && (
+            <div>
+              <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
+                Tu riesgo cardiovascular a 10 años
+              </Text>
+              <Text fw={800} fz="2rem" c="teal" lh={1.1} mt={4}>
+                {prevent.ascvd10y.toFixed(1)}%
+              </Text>
+              <Text size="xs" c="dimmed" maw={320}>
+                Estimación PREVENT (American Heart Association). Bajarlo está en tus manos, junto a tu equipo.
+              </Text>
+            </div>
+          )}
+        </Group>
+      ) : (
+        <Text size="sm" c="dimmed">
+          Tu riesgo cardiovascular (PREVENT) y tu estadío CKM los calcula tu equipo de Favaloro a partir de tus datos.
+          Cargá tus datos y, en minutos, los vas a ver acá.
+        </Text>
+      )}
 
       <Group justify="space-between" mt="md">
         <Text size="xs" c="dimmed" maw={460}>

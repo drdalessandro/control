@@ -15,7 +15,7 @@ import classes from './BottomNav.module.css';
 
 const navItems = [
   { to: '/health-record', label: 'Registro', icon: IconHeartbeat },
-  { to: '/laboratorio', label: 'Laboratorio', icon: IconFlask },
+  { to: '/laboratory', label: 'Laboratorio', icon: IconFlask },
   { to: '/Communication', label: 'Mensajes', icon: IconMessage },
   { to: '/care-plan', label: 'Plan', icon: IconRoute },
   { to: '/get-care', label: 'Atención', icon: IconStethoscope },

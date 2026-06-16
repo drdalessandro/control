@@ -11,11 +11,11 @@ const sideMenu = {
   title: 'Laboratorio',
   menu: labMeasurementIds.map((id) => ({
     name: measurementsMeta[id].title,
-    href: `/laboratorio/${id}`,
+    href: `/laboratory/${id}`,
   })),
 };
 
-export function LaboratorioLayout(): JSX.Element {
+export function LaboratoryLayout(): JSX.Element {
   return (
     <Container>
       <Group align="top">

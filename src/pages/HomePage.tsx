@@ -36,7 +36,7 @@ import classes from './HomePage.module.css';
 // Acciones rápidas del paciente. Verbos que invitan a la acción.
 const quickActions = [
   { icon: IconHeartbeat, title: 'Cargar mi presión', description: '30 segundos', href: '/health-record/vitals/blood-pressure' },
-  { icon: IconReportMedical, title: 'Cargar laboratorio', description: 'Resultados de tu análisis', href: '/laboratorio' },
+  { icon: IconReportMedical, title: 'Cargar laboratorio', description: 'Resultados de tu análisis', href: '/laboratory' },
   { icon: IconStethoscope, title: 'Mis registros', description: 'Tu salud en un lugar', href: '/health-record' },
   { icon: IconCalendarHeart, title: 'Mis turnos', description: 'Pedí atención', href: '/get-care' },
 ];
@@ -152,7 +152,7 @@ export function HomePage(): JSX.Element {
                   </Text>
                 </div>
               </Group>
-              <Button size="md" onClick={() => navigate('/cuestionario-sdoh')?.catch(console.error)}>
+              <Button size="md" onClick={() => navigate('/sdoh-questionnaire')?.catch(console.error)}>
                 Completar cuestionario
               </Button>
             </Group>

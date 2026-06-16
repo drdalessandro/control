@@ -22,8 +22,8 @@ import { Vaccine } from './pages/health-record/Vaccine';
 import { Vaccines } from './pages/health-record/Vaccines';
 import { Vitals } from './pages/health-record/Vitals';
 import { HomePage } from './pages/HomePage';
-import { LaboratorioLayout } from './pages/laboratorio';
-import { Laboratorio } from './pages/laboratorio/Laboratorio';
+import { LaboratoryLayout } from './pages/laboratory';
+import { Laboratory } from './pages/laboratory/Laboratory';
 import { MessagesPage } from './pages/MessagesPage';
 import { ObservationPage } from './pages/ObservationPage';
 import { PatientIntakeQuestionnairePage } from './pages/PatientIntakeQuestionnairePage';
@@ -38,14 +38,14 @@ export function Router(): JSX.Element {
     <Routes>
       {/* RUTAS PÚBLICAS Y DE NIVEL SUPERIOR */}
       <Route path="/" element={<HomePage />} />
-      <Route path="/evidencia-cientifica" element={<ScientificEvidence />} />
+      <Route path="/scientific-evidence" element={<ScientificEvidence />} />
       
       <Route path="Communication" element={<MessagesPage />}>
         <Route path=":messageId" element={<MessagesPage />} />
       </Route>
       <Route path="Questionnaire/:questionnaireId" element={<QuestionnairePage />} />
       <Route path="screening-questionnaire" element={<ScreeningQuestionnairePage />} />
-      <Route path="cuestionario-sdoh" element={<SdohQuestionnairePage />} />
+      <Route path="sdoh-questionnaire" element={<SdohQuestionnairePage />} />
       <Route path="patient-intake-questionnaire" element={<PatientIntakeQuestionnairePage />} />
       
       {/* RUTAS PRIVADAS (HEALTH RECORD) */}
@@ -63,8 +63,8 @@ export function Router(): JSX.Element {
         <Route path="vitals/:measurementId" element={<Measurement />} />
       </Route>
 
-      <Route path="laboratorio" element={<LaboratorioLayout />}>
-        <Route index element={<Laboratorio />} />
+      <Route path="laboratory" element={<LaboratoryLayout />}>
+        <Route index element={<Laboratory />} />
         <Route path=":measurementId" element={<Measurement />} />
       </Route>
       <Route path="Observation/:observationId" element={<ObservationPage />} />

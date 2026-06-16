@@ -13,7 +13,7 @@ import type { JSX } from 'react';
 import { Link } from 'react-router';
 import { labMeasurementIds, measurementsMeta } from '../health-record/Measurement.data';
 
-const BASE_PATH = '/laboratorio';
+const BASE_PATH = '/laboratory';
 
 // Pista corta (unidad) que se muestra debajo de cada título.
 const LAB_HINTS: Record<string, string> = {
@@ -26,7 +26,7 @@ const LAB_HINTS: Record<string, string> = {
   'fasting-glucose': 'mg/dL',
 };
 
-export function Laboratorio(): JSX.Element {
+export function Laboratory(): JSX.Element {
   return (
     <Stack p="md" gap="md">
       <div>

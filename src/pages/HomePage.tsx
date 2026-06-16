@@ -28,6 +28,7 @@ import {
 import { useCallback } from 'react';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
+import { HeartToday } from '../components/HeartToday';
 import { PlanProgress, PlanStartInvite, usePlan100 } from '../components/Plan100';
 import { getPlanDay } from '../utils/plan100';
 import classes from './HomePage.module.css';
@@ -109,9 +110,16 @@ export function HomePage(): JSX.Element {
         </Group>
       </Box>
 
+      {/* Tu corazón hoy — palancas personales (el diferencial) */}
+      <Box p="lg">
+        <Container>
+          <HeartToday />
+        </Container>
+      </Box>
+
       {/* Plan 100 Días — progreso real (o invitación a empezar) */}
       {!loading && (
-        <Box p="lg">
+        <Box p="lg" pt={0}>
           <Container>
             {plan ? <PlanProgress plan={plan} /> : <PlanStartInvite onStart={handleStart} starting={starting} />}
           </Container>

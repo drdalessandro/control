@@ -64,41 +64,37 @@ export function HomePage(): JSX.Element {
         <span>Bienvenido/a a Favaloro Argentina · Tu Plan Bienestar 100 Días te espera.</span>
       </Box>
 
-      <div className={classes.hero}>
-        <Overlay
-          gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.4) 40%)"
-          opacity={1}
-          zIndex={0}
-        />
-        <Container className={classes.heroContainer}>
-          <Title className={classes.heroTitle}>
-            Hola {firstName} 👋<br /> tu bienestar empieza hoy
-          </Title>
-          <Text c="white" size="xl" maw={620} mb="xl">
-            Un paso por día. Te acompañamos durante 100 días para cuidar tu corazón, tus riñones y tu metabolismo.
-          </Text>
-          {plan ? (
-            <Button
-              size="xl"
-              radius="xl"
-              className={classes.heroButton}
-              onClick={() => navigate('/care-plan')?.catch(console.error)}
-            >
-              Continuar — Día {getPlanDay(plan)} de 100
+      {/* NUEVO HEADER MINIMALISTA CKM */}
+      <Container size="lg" pt={40} pb={20}>
+        <Group justify="space-between" align="flex-end">
+          <Box>
+            <Title order={1} fw={800} style={{ fontSize: '2.5rem', color: theme.colors.dark[8] }}>
+              Hola, {firstName} 👋
+            </Title>
+            <Text c="dimmed" size="xl" mt="sm" maw={600}>
+              Tu mapa de salud integral CKM. Cuidamos la conexión entre tu corazón, tus riñones y tu metabolismo.
+            </Text>
+          </Box>
+          
+          {/* En lugar del botón del plan (que ya está abajo), ponemos un atajo rápido vital */}
+          {!plan ? (
+            <Button size="md" radius="xl" color="teal" onClick={handleStart} loading={starting}>
+              Empezar mi Plan
             </Button>
           ) : (
-            <Button
-              size="xl"
-              radius="xl"
-              className={classes.heroButton}
-              loading={starting}
-              onClick={handleStart}
+            <Button 
+              variant="light" 
+              color="teal" 
+              size="md" 
+              radius="xl" 
+              leftSection={<IconHeartbeat size={18} />}
+              onClick={() => navigate('/health-record/vitals/blood-pressure')}
             >
-              Empezar mi Plan Bienestar 100 Días
+              Cargar presión de hoy
             </Button>
           )}
-        </Container>
-      </div>
+        </Group>
+      </Container>
 
       <Box className={classes.callToAction}>
         <Group justify="center">
@@ -193,4 +189,5 @@ export function HomePage(): JSX.Element {
       </Box>
     </Box>
   );
+}
 }

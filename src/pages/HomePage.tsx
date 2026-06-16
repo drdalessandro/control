@@ -28,6 +28,7 @@ import {
 import { useCallback } from 'react';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
+import { HeartToday } from '../components/HeartToday';
 import { PlanProgress, PlanStartInvite, usePlan100 } from '../components/Plan100';
 import { getPlanDay } from '../utils/plan100';
 import classes from './HomePage.module.css';
@@ -35,7 +36,7 @@ import classes from './HomePage.module.css';
 // Acciones rápidas del paciente. Verbos que invitan a la acción.
 const quickActions = [
   { icon: IconHeartbeat, title: 'Cargar mi presión', description: '30 segundos', href: '/health-record/vitals/blood-pressure' },
-  { icon: IconReportMedical, title: 'Cargar laboratorio', description: 'Resultados de tu análisis', href: '/laboratorio' },
+  { icon: IconReportMedical, title: 'Cargar laboratorio', description: 'Resultados de tu análisis', href: '/laboratory' },
   { icon: IconStethoscope, title: 'Mis registros', description: 'Tu salud en un lugar', href: '/health-record' },
   { icon: IconCalendarHeart, title: 'Mis turnos', description: 'Pedí atención', href: '/get-care' },
 ];
@@ -109,9 +110,16 @@ export function HomePage(): JSX.Element {
         </Group>
       </Box>
 
+      {/* Tu corazón hoy — palancas personales (el diferencial) */}
+      <Box p="lg">
+        <Container>
+          <HeartToday />
+        </Container>
+      </Box>
+
       {/* Plan 100 Días — progreso real (o invitación a empezar) */}
       {!loading && (
-        <Box p="lg">
+        <Box p="lg" pt={0}>
           <Container>
             {plan ? <PlanProgress plan={plan} /> : <PlanStartInvite onStart={handleStart} starting={starting} />}
           </Container>
@@ -144,7 +152,7 @@ export function HomePage(): JSX.Element {
                   </Text>
                 </div>
               </Group>
-              <Button size="md" onClick={() => navigate('/cuestionario-sdoh')?.catch(console.error)}>
+              <Button size="md" onClick={() => navigate('/sdoh-questionnaire')?.catch(console.error)}>
                 Completar cuestionario
               </Button>
             </Group>

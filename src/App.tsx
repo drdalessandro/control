@@ -28,7 +28,7 @@ export function App(): JSX.Element | null {
         <Route path="/" element={<LandingPage />} />
         <Route path="signin" element={<SignInPage />} />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="/evidencia-cientifica" element={<ScientificEvidence />} />
+        <Route path="/scientific-evidence" element={<ScientificEvidence />} />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
     );

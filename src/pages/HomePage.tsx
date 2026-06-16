@@ -8,8 +8,6 @@ import {
   Container,
   Group,
   Overlay,
-  Progress,
-  RingProgress,
   SimpleGrid,
   Text,
   ThemeIcon,
@@ -27,8 +25,11 @@ import {
   IconReportMedical,
   IconStethoscope,
 } from '@tabler/icons-react';
+import { useCallback } from 'react';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
+import { PlanProgress, PlanStartInvite, usePlan100 } from '../components/Plan100';
+import { getPlanDay } from '../utils/plan100';
 import classes from './HomePage.module.css';
 
 // Acciones rápidas del paciente. Verbos que invitan a la acción.
@@ -44,11 +45,17 @@ export function HomePage(): JSX.Element {
   const theme = useMantineTheme();
   const profile = useMedplumProfile() as Patient | Practitioner;
   const firstName = profile.name?.[0]?.given?.[0] ?? (profile.name ? formatHumanName(profile.name[0]) : '');
+  const { plan, loading, starting, start } = usePlan100();
 
-  // Plan 100 Días — estado visual (placeholder; en Fase 2 se lee del CarePlan real).
-  const planDay = 1;
-  const planTotal = 100;
-  const planPct = Math.round((planDay / planTotal) * 100);
+  const handleStart = useCallback(() => {
+    start()
+      .then((created) => {
+        if (created) {
+          navigate('/care-plan')?.catch(console.error);
+        }
+      })
+      .catch(console.error);
+  }, [start, navigate]);
 
   return (
     <Box bg="gray.0">
@@ -69,14 +76,26 @@ export function HomePage(): JSX.Element {
           <Text c="white" size="xl" maw={620} mb="xl">
             Un paso por día. Te acompañamos durante 100 días para cuidar tu corazón, tus riñones y tu metabolismo.
           </Text>
-          <Button
-            size="xl"
-            radius="xl"
-            className={classes.heroButton}
-            onClick={() => navigate('/care-plan')?.catch(console.error)}
-          >
-            Empezar mi Plan Bienestar 100 Días
-          </Button>
+          {plan ? (
+            <Button
+              size="xl"
+              radius="xl"
+              className={classes.heroButton}
+              onClick={() => navigate('/care-plan')?.catch(console.error)}
+            >
+              Continuar — Día {getPlanDay(plan)} de 100
+            </Button>
+          ) : (
+            <Button
+              size="xl"
+              radius="xl"
+              className={classes.heroButton}
+              loading={starting}
+              onClick={handleStart}
+            >
+              Empezar mi Plan Bienestar 100 Días
+            </Button>
+          )}
         </Container>
       </div>
 
@@ -90,54 +109,14 @@ export function HomePage(): JSX.Element {
         </Group>
       </Box>
 
-      {/* Plan 100 Días — tarjeta de progreso */}
-      <Box p="lg">
-        <Container>
-          <Card shadow="md" radius="md" withBorder p="xl">
-            <Group justify="space-between" align="center" wrap="wrap" gap="lg">
-              <Group wrap="nowrap" gap="xl">
-                <RingProgress
-                  size={120}
-                  thickness={10}
-                  roundCaps
-                  sections={[{ value: planPct, color: theme.primaryColor }]}
-                  label={
-                    <Text ta="center" fw={700} size="lg">
-                      Día {planDay}
-                      <Text span c="dimmed" fw={400} size="sm">
-                        {' '}
-                        / {planTotal}
-                      </Text>
-                    </Text>
-                  }
-                />
-                <div>
-                  <Text fw={700} size="lg">
-                    Plan Bienestar 100 Días
-                  </Text>
-                  <Text c="dimmed" size="sm" maw={440}>
-                    Pequeños pasos, grandes cambios. Estás en la etapa <b>Conocerte</b>: cargá tus datos y completá el
-                    cuestionario para ver tu mapa de salud.
-                  </Text>
-                </div>
-              </Group>
-              <Button onClick={() => navigate('/care-plan')?.catch(console.error)}>Ver mi plan</Button>
-            </Group>
-            <Progress value={planPct} mt="lg" radius="xl" size="md" />
-            <Group mt="xs" gap="xl">
-              <Text size="xs" c="dimmed">
-                Etapa 1 · Conocerte (días 1–30)
-              </Text>
-              <Text size="xs" c="dimmed">
-                Etapa 2 · Construir hábitos (31–70)
-              </Text>
-              <Text size="xs" c="dimmed">
-                Etapa 3 · Sostener (71–100)
-              </Text>
-            </Group>
-          </Card>
-        </Container>
-      </Box>
+      {/* Plan 100 Días — progreso real (o invitación a empezar) */}
+      {!loading && (
+        <Box p="lg">
+          <Container>
+            {plan ? <PlanProgress plan={plan} /> : <PlanStartInvite onStart={handleStart} starting={starting} />}
+          </Container>
+        </Box>
+      )}
 
       {/* Cuestionario SDOH — recomendado */}
       <Box p="lg" pt={0}>

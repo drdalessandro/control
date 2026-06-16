@@ -68,13 +68,12 @@ export function HomePage(): JSX.Element {
         <Group justify="space-between" align="flex-end">
           <Box>
             <Title order={1} fw={800} style={{ fontSize: '2.5rem', color: theme.colors.dark[8] }}>
-              Hola, {firstName} 👋
+              Hola, {firstName}
             </Title>
             <Text c="dimmed" size="xl" mt="sm" maw={600}>
-              Tu mapa de salud integral CKM. Cuidamos la conexión entre tu corazón, tus riñones y tu metabolismo.
+              Mapa de salud integral del corazón, riñones y metabolismo.
             </Text>
           </Box>
-          
           {!plan ? (
             <Button size="md" radius="xl" color="teal" onClick={handleStart} loading={starting}>
               Empezar mi Plan

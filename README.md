@@ -1,8 +1,8 @@
-<h1 align="center">Foo Medical</h1>
-<p align="center">A free and open-source healthcare webapp from the Medplum team.</p>
+<h1 align="center">Favaloro | Medplum Argentina | Control</h1>
+<p align="center">A free and open-source healthcare webapp from the Favaloro | Medplum Argentina team.</p>
 <p align="center">
-  <a href="https://github.com/medplum/foomedical/actions">
-    <img src="https://github.com/medplum/foomedical/actions/workflows/build.yml/badge.svg" />
+  <a href="https://github.com/drdalessandro/control">
+    <img src="https://github.com/drdalessandro/control/src/img/background.png" />
   </a>
   <a href="https://github.com/medplum/foomedical/blob/main/LICENSE.txt">
     <img src="https://img.shields.io/badge/license-Apache-blue.svg" />
@@ -12,16 +12,16 @@
   </a>
 </p>
 
-![Foo Medical Screenshot](screenshot.png)
+![Favaloro | Medplum Argentina](background.png)
 
 ### What is Foo Medical?
 
-[Foo Medical](https://foomedical.com/) is a **ready to use medical practice sample app** that's open source. It's meant for developers to clone, customize and run.
+[Favaloro | Medplum Argentina | Control](https://control.medplum.com.arm/) is a **ready to use medical practice sample app** that's open source. It's meant for developers to clone, customize and run.
 
 ### Features
 
 - Completely free and open-source
-- Secure and compliant [Medplum](https://www.medplum.com) backend, which is also open source
+- Secure and compliant [Medplum AR](https://www.medplum.com.ar) backend, which is also open source
 - Patient registration and authentication
 - Health records
   - Lab results
@@ -37,7 +37,7 @@ Foo Medical is designed to be forked and customized for your business' needs. Re
 
 ### Getting Started
 
-First, [fork](https://github.com/medplum/foomedical/fork) and clone the repo.
+First, [fork](https://github.com/drdalessandro/control/fork) and clone the repo.
 
 Next, install the app from your terminal
 
@@ -53,7 +53,7 @@ npm run dev
 
 This app should run on `http://localhost:3000/`
 
-Log into the app on localhost using the same credentials you created on [foomedical.com](https://foomedical.com/) and you are ready to start customizing.
+Log into the app on localhost using the same credentials you created on [control.medplum.com.ar](https://control.medplum.com.ar/) and you are ready to start customizing.
 
 ### Deploying your app
 

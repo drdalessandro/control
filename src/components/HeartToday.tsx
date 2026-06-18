@@ -12,15 +12,16 @@ import { useEffect, useState } from 'react';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router';
 import {
-  type AscvdDelta,
   CKM_STAGE_LABELS,
   getAscvdDelta,
   getAscvdSeries,
   getCKMStage,
   getPreventScores,
   type PreventScores,
+  type RiskPoint,
 } from '../utils/ckm';
 import { computeHeartLevers, type HeartLevers } from '../utils/heartLevers';
+import { Sparkline } from './Sparkline';
 
 const MAX_TO_IMPROVE = 3;
 
@@ -31,7 +32,7 @@ export function HeartToday(): JSX.Element | null {
   const [levers, setLevers] = useState<HeartLevers>();
   const [stage, setStage] = useState<number>();
   const [prevent, setPrevent] = useState<PreventScores>();
-  const [ascvdDelta, setAscvdDelta] = useState<AscvdDelta>();
+  const [riskSeries, setRiskSeries] = useState<RiskPoint[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ export function HeartToday(): JSX.Element | null {
         setLevers(computeHeartLevers(obs));
         setStage(getCKMStage(freshPatient));
         setPrevent(getPreventScores(freshPatient));
-        setAscvdDelta(getAscvdDelta(getAscvdSeries(assessments)));
+        setRiskSeries(getAscvdSeries(assessments));
       })
       .catch(console.error)
       .finally(() => active && setLoading(false));
@@ -93,8 +94,10 @@ export function HeartToday(): JSX.Element | null {
 
   // El número se toma del historial (RiskAssessment) si existe, para que sea
   // consistente con su tendencia; si no, de la extensión hGraph del Patient.
+  const ascvdDelta = getAscvdDelta(riskSeries);
   const ascvd = ascvdDelta?.current ?? prevent?.ascvd10y;
   const delta = ascvdDelta?.delta;
+  const trendColor = delta !== undefined && delta > 0 ? 'orange' : 'teal';
 
   return (
     <Card shadow="md" radius="md" withBorder p="xl">
@@ -180,7 +183,15 @@ export function HeartToday(): JSX.Element | null {
                   </Badge>
                 )}
               </Group>
-              <Text size="xs" c="dimmed" maw={340}>
+              {riskSeries.length >= 2 && (
+                <Group gap="xs" mt={6} align="center">
+                  <Sparkline values={riskSeries.map((p) => p.value)} color={trendColor} />
+                  <Text size="xs" c="dimmed">
+                    tu evolución ({riskSeries.length} controles)
+                  </Text>
+                </Group>
+              )}
+              <Text size="xs" c="dimmed" maw={340} mt={6}>
                 {delta !== undefined && delta < 0
                   ? '¡Vas bien! Tu riesgo bajó desde tu control anterior. Seguí así.'
                   : 'Estimación PREVENT (American Heart Association). Bajarlo está en tus manos, junto a tu equipo.'}

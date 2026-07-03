@@ -49,11 +49,22 @@ export function getPlanPhase(day: number): PlanPhase {
 
 /** Busca el Plan 100 Días activo del paciente, si existe. */
 export async function findActivePlan(medplum: MedplumClient, patient: Patient): Promise<CarePlan | undefined> {
+  // Incluye 'draft': un plan creado por el equipo médico y aún no activado
+  // también cuenta como "ya hay plan" (no hay que ofrecer crear otro).
   const plans = await medplum.searchResources(
     'CarePlan',
-    `subject=${getReferenceString(patient)}&status=active&_count=20&_sort=-_lastUpdated`
+    `subject=${getReferenceString(patient)}&status=active,draft&_count=20&_sort=-_lastUpdated`
   );
-  return plans.find((plan) => plan.category?.some((cat) => cat.coding?.some((c) => c.code === PLAN_CODE)));
+  // Reconoce tanto los planes creados por Control (category bienestar-100-dias)
+  // como los creados desde Seguimiento por el equipo médico (por título).
+  const isPlan100 = (plan: CarePlan): boolean =>
+    Boolean(
+      plan.category?.some((cat) => cat.coding?.some((c) => c.code === PLAN_CODE)) ||
+        plan.title?.toLowerCase().includes('100 días') ||
+        plan.title?.toLowerCase().includes('100 dias')
+    );
+  const matches = plans.filter(isPlan100);
+  return matches.find((plan) => plan.status === 'active') ?? matches[0];
 }
 
 /** Crea (inicia) el Plan 100 Días del paciente con el día de hoy como día 1. */

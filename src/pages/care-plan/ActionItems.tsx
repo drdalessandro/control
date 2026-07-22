@@ -12,6 +12,7 @@
 import { Badge, Box, Button, Card, Group, Stack, Text, Title, useMantineTheme } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { formatDate, getReferenceString, normalizeErrorString } from '@medplum/core';
+import type { PatchOperation } from '@medplum/core';
 import type { CarePlan, CarePlanActivityDetail, Patient } from '@medplum/fhirtypes';
 import { StatusBadge, useMedplum } from '@medplum/react';
 import { IconCalendar, IconCircleCheck, IconCircleOff } from '@tabler/icons-react';
@@ -96,18 +97,20 @@ export function ActionItems(): JSX.Element {
   }, [medplum, patient]);
 
   function updateActivityStatus(index: number, newStatus: ActivityStatus): void {
-    if (!plan) {
+    if (!plan?.id) {
       return;
     }
     setSavingIndex(index);
-    const updated: CarePlan = {
-      ...plan,
-      activity: plan.activity?.map((a, i) =>
-        i === index && a.detail ? { ...a, detail: { ...a.detail, status: newStatus } } : a
-      ),
-    };
+    // PATCH quirúrgico en vez de PUT del recurso completo: solo toca el status
+    // de ESTA activity, y el op 'test' hace de optimistic locking — si el plan
+    // cambió en el servidor (p. ej. el médico lo editó desde Seguimiento), el
+    // patch falla en vez de pisar esos cambios en silencio.
+    const ops: PatchOperation[] = [
+      { op: 'test', path: '/meta/versionId', value: plan.meta?.versionId },
+      { op: 'replace', path: `/activity/${index}/detail/status`, value: newStatus },
+    ];
     medplum
-      .updateResource(updated)
+      .patchResource('CarePlan', plan.id, ops)
       .then((saved) => {
         setPlan(saved);
         if (newStatus === 'completed') {
@@ -118,13 +121,31 @@ export function ActionItems(): JSX.Element {
           });
         }
       })
-      .catch((err) => {
-        showNotification({
-          color: 'red',
-          icon: <IconCircleOff />,
-          title: 'No pudimos guardar el cambio',
-          message: normalizeErrorString(err),
-        });
+      .catch(async (err) => {
+        const message = normalizeErrorString(err);
+        if (message.toLowerCase().includes('forbidden')) {
+          showNotification({
+            color: 'red',
+            icon: <IconCircleOff />,
+            title: 'Todavía no podés marcar acciones',
+            message: 'Tu equipo de salud está habilitando esta función. Mientras tanto, ellos pueden marcarlas por vos.',
+          });
+        } else {
+          // Conflicto de versión u otro error: recargamos el plan para
+          // mostrar el estado real del servidor y que pueda reintentar.
+          showNotification({
+            color: 'yellow',
+            icon: <IconCircleOff />,
+            title: 'Tu plan se actualizó recién',
+            message: 'Lo recargamos con los últimos cambios. Probá de nuevo.',
+          });
+          try {
+            const fresh = await medplum.readResource('CarePlan', plan.id as string);
+            setPlan(fresh);
+          } catch (readErr) {
+            console.error(readErr);
+          }
+        }
       })
       .finally(() => setSavingIndex(undefined));
   }
@@ -190,6 +211,7 @@ export function ActionItems(): JSX.Element {
                               <Button
                                 size="xs"
                                 loading={savingIndex === activity.index}
+                                disabled={savingIndex !== undefined && savingIndex !== activity.index}
                                 onClick={() => updateActivityStatus(activity.index, 'in-progress')}
                               >
                                 Empezar
@@ -200,6 +222,7 @@ export function ActionItems(): JSX.Element {
                                 size="xs"
                                 variant="light"
                                 loading={savingIndex === activity.index}
+                                disabled={savingIndex !== undefined && savingIndex !== activity.index}
                                 onClick={() => updateActivityStatus(activity.index, 'completed')}
                               >
                                 ¡La logré!
@@ -211,6 +234,7 @@ export function ActionItems(): JSX.Element {
                                 variant="subtle"
                                 color="gray"
                                 loading={savingIndex === activity.index}
+                                disabled={savingIndex !== undefined && savingIndex !== activity.index}
                                 onClick={() => updateActivityStatus(activity.index, 'in-progress')}
                               >
                                 Retomar
